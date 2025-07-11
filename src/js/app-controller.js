@@ -49,7 +49,22 @@ export class AppController {
         const project = new Project(projectData.title, projectData.desc);
         this.#projectsHandler.addProject(project);
 
-        // ...
+        // Store it
 
+    }
+
+    removeProject(index) {
+        // Make sure it doesn't break if project doesn't exist
+        try {
+            // Get the project
+            const project = this.#projectsHandler.getProject(index);
+
+            // Remove it
+            this.#projectsHandler.removeProject(index);
+        }
+        catch {
+            // Print message to DOM
+            console.log("Invalid information for project removal.");
+        }
     }
 }
