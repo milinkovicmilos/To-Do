@@ -12,6 +12,7 @@ export class ProjectsHandler {
 
     /**
      * Fetch a single project
+     * @param {number} index 
      */
     getProject(index) {
         if (typeof index != 'number' || index < 0 || index > this.#projects.length - 1) {
