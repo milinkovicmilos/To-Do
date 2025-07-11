@@ -59,7 +59,6 @@ export class Project {
     }
 
     /**
-     * Adds task to the project
      * @param {object} task - Task object (instance of Task) to add
      */
     addTask(task) {
