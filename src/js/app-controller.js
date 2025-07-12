@@ -67,4 +67,24 @@ export class AppController {
             console.log("Invalid information for project removal.");
         }
     }
+
+    /**
+     * Adds the task to the project.
+     * @param {number} projectIndex - Index of the project we want to add the task to.
+     * @param {object} task - Task object that we wish to add. Must be instance of Task.
+     */
+    addTaskToProject(projectIndex, task) {
+        // Make sure it doesn't break if project doesn't exist
+        try {
+            // Get the project
+            const project = this.#projectsHandler.getProject(projectIndex);
+
+            // Add the task to it
+            project.addTask(task);
+        }
+        catch {
+            // Print message to DOM
+            console.log("Failed to add the task to project.");
+        }
+    }
 }
