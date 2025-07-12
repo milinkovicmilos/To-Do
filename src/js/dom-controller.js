@@ -1,4 +1,7 @@
 import { AppController } from "./app-controller.js";
+import { NavigationDomController } from "./navigation-dom-controller.js";
+import { ProjectsDomController } from "./projects-dom-controller.js";
+
 import { Project } from "./project.js";
 
 export class DomController {
@@ -7,6 +10,18 @@ export class DomController {
      * @type {object} appController
      */
     #appController;
+
+    /**
+     * The Navigation Dom Controller that is responsible for rendering nav bar
+     * @type {object} navigationController - Must be instance of NavigationDomController
+     */
+    #navigationController;
+
+    /**
+     * The Projects Dom Controller that is responsible for rendering projects into DOM
+     * @type {object} projectsController - Must be instance of ProjectsDomController
+     */
+    #projectsController;
 
     /**
      * State control.
@@ -34,6 +49,8 @@ export class DomController {
             throw new Error("Invalid app controller passed. Must be instance of AppContoller.");
         }
         this.#appController = appController;
+        this.#navigationController = new NavigationDomController(this);
+        this.#projectsController = new ProjectsDomController(this);
     }
 
     /**
@@ -53,6 +70,11 @@ export class DomController {
         this.#state = this.#states[value];
     }
 
+    renderFixed() {
+        const navigationElement = document.querySelector("nav");
+        this.#navigationController.render(navigationElement);
+    }
+
     /**
      * Render the projects onto a page
      * @param {Array} projects - array of projects (Objects of type Project).
@@ -60,14 +82,13 @@ export class DomController {
     renderProjects(projects) {
         try {
             this.#checkIfProjectArray(projects);
+
+            const gridWrapper = document.querySelector("#grid-wrapper");
+            this.#projectsController.render(this.#appController, gridWrapper, projects);
         }
         catch {
             console.log("There was an error in showing the projects. Try again later.");
         }
-
-        projects.forEach((project) => {
-            console.log(project);
-        });
     }
 
     #checkIfProjectArray(array) {

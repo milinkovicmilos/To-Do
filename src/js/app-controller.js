@@ -28,6 +28,9 @@ export class AppController {
     }
 
     initializePage() {
+        // Fixed page elements initialization
+        this.#domController.renderFixed();
+
         // Load projects from localStorage/fetch from database etc.
         const projects = this.#storageWrapper.loadProjects();
 
@@ -53,14 +56,10 @@ export class AppController {
 
     }
 
-    removeProject(index) {
-        // Make sure it doesn't break if project doesn't exist
+    removeProject(project) {
         try {
-            // Get the project
-            const project = this.#projectsHandler.getProject(index);
-
             // Remove it
-            this.#projectsHandler.removeProject(index);
+            this.#projectsHandler.removeProject(project);
         }
         catch {
             // Print message to DOM
