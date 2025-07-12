@@ -1,4 +1,4 @@
-export class DummyTasksGenerator {
+export class DummyTaskGenerator {
     #availableTasks = [
         {
             title: "Do the dishes",
