@@ -32,12 +32,12 @@ export class ProjectsHandler {
     };
 
     /**
-     * @param {number} index - Index of project to remove
+     * @param {object} project - Refenrece to the object to remove. Must be instance of Project
      */
-    removeProject(index) {
-        if (typeof index != 'number' || index < 0 || index > this.#projects.length - 1) {
-            throw new Error("Invalid project index passed.");
+    removeProject(project) {
+        if (!project instanceof Project) {
+            throw new Error("Invalid object passed. Object must be instance of Project.");
         }
-        this.#projects.splice(index, 1);
+        this.#projects.splice(this.#projects.findIndex(proj => proj == project), 1);
     };
 }
