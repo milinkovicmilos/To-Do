@@ -79,6 +79,7 @@ export class DomController {
     }
 
     renderFixed() {
+        this.State = "projects";
         this.#navigationController.render();
     }
 

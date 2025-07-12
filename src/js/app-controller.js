@@ -27,7 +27,10 @@ export class AppController {
         this.#projectsHandler = new ProjectsHandler();
     }
 
-    initializePage() {
+    /**
+     * @param {boolean} [back=false] - Weather the user went back to home page or not
+     */
+    initializeHomePage(back = false) {
         // Fixed page elements initialization
         this.#domController.renderFixed();
 
@@ -37,8 +40,10 @@ export class AppController {
         // Display those projects
         this.#domController.renderProjects(projects);
 
-        // Get those projects into the projects handler
-        projects.forEach((project) => this.#projectsHandler.addProject(project));
+        if (!back) {
+            // Get those projects into the projects handler if it's the users first time on home page
+            projects.forEach((project) => this.#projectsHandler.addProject(project));
+        }
 
         // Notifications?
     }
@@ -65,6 +70,7 @@ export class AppController {
         try {
             const nextProject = this.#projectsHandler.getNextProject(currentProject);
 
+            console.log(currentProject);
             if (nextProject == null) {
                 return;
             }

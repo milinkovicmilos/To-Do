@@ -36,10 +36,16 @@ export class NavigationDomController {
 
     /**
      * Renders the navigation into headers nav element
+     * @param {object} appController
      * @param {object} [project=undefined] - Currently selected project. Optional parameter.
      */
     render(appController, project) {
-        const nav = document.querySelector("header nav");
+        // Reset
+        const header = document.querySelector("header");
+        const nav = header.querySelector("nav");
+        const homeButton = document.querySelector("#home");
+        if (homeButton) homeButton.remove();
+
         nav.innerHTML = "";
         switch (this.#domController.State) {
             case 0:
@@ -49,6 +55,9 @@ export class NavigationDomController {
                 break;
 
             case 1:
+                header.prepend(
+                    this.#createHomeButton(appController)
+                );
                 nav.append(
                     ...this.#createNavigationButtons(appController, project)
                 );
@@ -75,6 +84,7 @@ export class NavigationDomController {
         nextButton.id = "next-project";
         nextButton.textContent = "Next Project";
         nextButton.addEventListener('click', function() {
+            console.log('next')
             appController.showNextProject(project);
         });
 
@@ -95,8 +105,19 @@ export class NavigationDomController {
         title.textContent = `Selected Project: ${value}`;
     }
 
-    disablePreviousProjectButton() {
-        const button = document.querySelector("#prev-button");
-        button.setAttribute("disabled", "disabled");
+    /**
+     * @param {object} appController
+     */
+    #createHomeButton(appController) {
+        const button = document.createElement("button");
+
+        button.id = "home";
+        button.textContent = "Home";
+        button.addEventListener('click', function() {
+            button.remove();
+            appController.initializeHomePage(true);
+        });
+
+        return button;
     }
 }

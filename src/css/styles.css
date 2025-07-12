@@ -12,8 +12,7 @@ body {
 }
 
 nav {
-    width: 80%;
-    margin: 20px auto;
+    margin: 20px 0;
     display: flex;
     justify-content: center;
 }
@@ -32,9 +31,10 @@ button {
     width: 150px;
 }
 
+header,
 main {
     width: 80%;
-    margin: 0 auto;
+    margin: 10px auto;
 }
 
 #grid-wrapper {
