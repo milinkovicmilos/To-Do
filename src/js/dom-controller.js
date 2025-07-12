@@ -88,8 +88,6 @@ export class DomController {
      */
     renderProjects(projects) {
         try {
-            this.#checkIfProjectArray(projects);
-
             const gridWrapper = document.querySelector("#grid-wrapper");
             gridWrapper.innerHTML = "";
 
@@ -115,7 +113,7 @@ export class DomController {
 
         this.State = "tasks";
 
-        this.#navigationController.render();
+        this.#navigationController.render(this.#appController, project);
         this.#navigationController.updateSelectedProjectTitle(project.Title);
     }
 

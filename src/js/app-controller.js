@@ -47,6 +47,34 @@ export class AppController {
         this.#domController.renderProject(project);
     }
 
+    showPreviousProject(currentProject) {
+        try {
+            const previousProject = this.#projectsHandler.getPreviousProject(currentProject);
+
+            if (previousProject == null) {
+                return;
+            }
+            this.showProject(previousProject);
+        }
+        catch {
+            console.log("There was an error in showing previous project.");
+        }
+    }
+
+    showNextProject(currentProject) {
+        try {
+            const nextProject = this.#projectsHandler.getNextProject(currentProject);
+
+            if (nextProject == null) {
+                return;
+            }
+            this.showProject(nextProject);
+        }
+        catch {
+            console.log("There was an error in showing next project.");
+        }
+    }
+
     createProject() {
         // DOM
         const dummyProjectGenerator = new DummyProjectGenerator();

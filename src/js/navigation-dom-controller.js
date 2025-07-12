@@ -36,8 +36,9 @@ export class NavigationDomController {
 
     /**
      * Renders the navigation into headers nav element
+     * @param {object} [project=undefined] - Currently selected project. Optional parameter.
      */
-    render(appController) {
+    render(appController, project) {
         const nav = document.querySelector("header nav");
         nav.innerHTML = "";
         switch (this.#domController.State) {
@@ -49,7 +50,7 @@ export class NavigationDomController {
 
             case 1:
                 nav.append(
-                    ...this.#createNavigationButtons(appController)
+                    ...this.#createNavigationButtons(appController, project)
                 );
                 break;
         }
@@ -62,14 +63,20 @@ export class NavigationDomController {
         return title;
     }
 
-    #createNavigationButtons(appController) {
+    #createNavigationButtons(appController, project) {
         const prevButton = document.createElement('button');
         prevButton.id = "prev-project";
         prevButton.textContent = "Previous Project";
+        prevButton.addEventListener('click', function() {
+            appController.showPreviousProject(project);
+        });
 
         const nextButton = document.createElement('button');
         nextButton.id = "next-project";
         nextButton.textContent = "Next Project";
+        nextButton.addEventListener('click', function() {
+            appController.showNextProject(project);
+        });
 
         const selectedProjectTitle = document.createElement('p');
         selectedProjectTitle.id = "selected-project-title";
@@ -86,5 +93,10 @@ export class NavigationDomController {
         }
         const title = document.querySelector("#selected-project-title");
         title.textContent = `Selected Project: ${value}`;
+    }
+
+    disablePreviousProjectButton() {
+        const button = document.querySelector("#prev-button");
+        button.setAttribute("disabled", "disabled");
     }
 }
