@@ -43,6 +43,10 @@ export class AppController {
         // Notifications?
     }
 
+    showProject(project) {
+        this.#domController.renderProject(project);
+    }
+
     createProject() {
         // DOM
         const dummyProjectGenerator = new DummyProjectGenerator();

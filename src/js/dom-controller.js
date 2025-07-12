@@ -1,6 +1,7 @@
 import { AppController } from "./app-controller.js";
 import { NavigationDomController } from "./navigation-dom-controller.js";
 import { ProjectsDomController } from "./projects-dom-controller.js";
+import { TasksDomController } from "./tasks-dom-controller.js";
 
 import { Project } from "./project.js";
 
@@ -22,6 +23,12 @@ export class DomController {
      * @type {object} projectsController - Must be instance of ProjectsDomController
      */
     #projectsController;
+
+    /**
+     * The Tasks Dom Controller that is responsible for rendering projects tasks into DOM
+     * @type {object} tasksController - Must be instance of TasksDomController
+     */
+    #tasksController;
 
     /**
      * State control.
@@ -50,7 +57,8 @@ export class DomController {
         }
         this.#appController = appController;
         this.#navigationController = new NavigationDomController(this);
-        this.#projectsController = new ProjectsDomController(this);
+        this.#projectsController = new ProjectsDomController();
+        this.#tasksController = new TasksDomController();
     }
 
     /**
@@ -71,8 +79,7 @@ export class DomController {
     }
 
     renderFixed() {
-        const navigationElement = document.querySelector("nav");
-        this.#navigationController.render(navigationElement);
+        this.#navigationController.render();
     }
 
     /**
@@ -84,11 +91,32 @@ export class DomController {
             this.#checkIfProjectArray(projects);
 
             const gridWrapper = document.querySelector("#grid-wrapper");
+            gridWrapper.innerHTML = "";
+
             this.#projectsController.render(this.#appController, gridWrapper, projects);
         }
         catch {
             console.log("There was an error in showing the projects. Try again later.");
         }
+    }
+
+    /**
+     * @param {object} project - Project object to render. Must be instance of Project.
+     */
+    renderProject(project) {
+        if (!project instanceof Project) {
+            throw new Error("Invalid object passed. Object must be instance of Project.");
+        }
+
+        const gridWrapper = document.querySelector("#grid-wrapper");
+        gridWrapper.innerHTML = "";
+
+        this.#tasksController.render(this.#appController, gridWrapper, project);
+
+        this.State = "tasks";
+
+        this.#navigationController.render();
+        this.#navigationController.updateSelectedProjectTitle(project.Title);
     }
 
     #checkIfProjectArray(array) {

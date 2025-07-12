@@ -24,6 +24,9 @@ export class ProjectsDomController {
 
     #createProjectCard(appController, project) {
         const card = document.createElement('div');
+        card.addEventListener('click', function() {
+            appController.showProject(project);
+        });
 
         const projectTitle = document.createElement('p');
         projectTitle.textContent = project.Title;
