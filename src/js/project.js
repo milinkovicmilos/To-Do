@@ -59,6 +59,17 @@ export class Project {
     }
 
     /**
+     * Gets a single task object.
+     * @param {number} index - Index of the task we wish to get.
+     */
+    getTask(index) {
+        if (typeof index != 'number' || index < 0 || index > this.Tasks.length - 1) {
+            throw new Error("Invalid task index passed.");
+        }
+        return this.#tasks[index];
+    }
+
+    /**
      * @param {object} task - Task object (instance of Task) to add
      */
     addTask(task) {
@@ -72,7 +83,7 @@ export class Project {
      * @param {number} index
      */
     removeTask(index) {
-        if (typeof index != "number" || index < 0 || index > Tasks.length) {
+        if (typeof index != "number" || index < 0 || index > this.Tasks.length - 1) {
             throw new Error("Invalid taks index passed.");
         }
         this.#tasks.splice(index, 1);

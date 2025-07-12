@@ -87,4 +87,24 @@ export class AppController {
             console.log("Failed to add the task to project.");
         }
     }
+
+    /**
+     * Removes the task from project.
+     * @param {number} projectIndex - Index of the project we wish to remove task from.
+     * @param {number} taskIndex - Index of task on the project we wish to remove.
+     */
+    removeTaskFromProject(projectIndex, taskIndex) {
+        // Make sure it doesn't break if project or task doesn't exist
+        try {
+            // Get the project
+            const project = this.#projectsHandler.getProject(projectIndex);
+
+            // Remove the task if it exists
+            project.removeTask(taskIndex);
+        }
+        catch {
+            // Print message to DOM
+            console.log("Failed to remove the task from the project.");
+        }
+    }
 }
