@@ -4,15 +4,53 @@ import { Project } from "./project.js";
 export class DomController {
     /**
      * The App Controller object that created this controller
-     * @param {object} appController
+     * @type {object} appController
      */
     #appController;
+
+    /**
+     * State control.
+     * 0 <=> for Projects view
+     * 1 <=> Tasks view - Listing tasks for currently selected project
+     *
+     * @type {object} states
+     */
+    #states = {
+        "projects": 0,
+        "tasks": 1,
+    }
+
+    /**
+     * By default set the state to projects view
+     * 0 <=> for Projects view
+     * 1 <=> Tasks view - Listing tasks for currently selected project
+     *
+     * @type {number} state
+     */
+    #state = this.#states["projects"];
 
     constructor(appController) {
         if (!appController instanceof AppController) {
             throw new Error("Invalid app controller passed. Must be instance of AppContoller.");
         }
         this.#appController = appController;
+    }
+
+    /**
+     * Return the current state
+     * Returns:
+     * 0 for for Projects view
+     * 1 for Tasks view - Listing tasks for currently selected project
+     */
+    get State() {
+        return this.#state;
+    }
+
+    set State(value) {
+        if (!value in this.#states) {
+            throw new Error("Invalid state passed.");
+        }
+        this.#state = this.#states[value];
     }
 
     /**
