@@ -80,12 +80,12 @@ export class Project {
     }
 
     /**
-     * @param {number} index
+     * @param {object} task
      */
-    removeTask(index) {
-        if (typeof index != "number" || index < 0 || index > this.Tasks.length - 1) {
-            throw new Error("Invalid taks index passed.");
+    removeTask(task) {
+        if (!task instanceof Task) {
+            throw new Error("Invalid taks object passed. Object must be instance of Task.");
         }
-        this.#tasks.splice(index, 1);
+        this.#tasks.splice(this.#tasks.findIndex(t => t == task), 1);
     }
 }
