@@ -1,0 +1,51 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-size: 1rem;
+}
+
+nav {
+    width: 80%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+}
+
+nav>#selected-project-title {
+    flex-grow: 1;
+    text-align: center;
+}
+
+button {
+    padding: 5px;
+}
+
+#prev-project,
+#next-project {
+    width: 150px;
+}
+
+main {
+    width: 80%;
+    margin: 0 auto;
+}
+
+#grid-wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.grid-element {
+    width: 50%;
+    height: 250px;
+    background-color: black;
+}
