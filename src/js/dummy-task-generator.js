@@ -1,3 +1,5 @@
+import { Task } from "./task.js";
+
 export class DummyTaskGenerator {
     #availableTasks = [
         {
@@ -22,6 +24,7 @@ export class DummyTaskGenerator {
 
     getTask() {
         const randomIndex = Math.floor(Math.random() * this.#availableTasks.length);
-        return this.#availableTasks[randomIndex];
+        const randomTaskObj = this.#availableTasks[randomIndex];
+        return new Task(randomTaskObj.title, randomTaskObj.desc, randomTaskObj.dueDate, randomTaskObj.priority);
     }
 }
