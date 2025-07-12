@@ -32,30 +32,24 @@ export class NavigationDomController {
             throw new Error("Invalid Dom Controller passed. Must be instance of DomController.");
         }
         this.#domController = domController;
-
-        [this.#prevButton, this.#selectedProjectTitle, this.#nextButton] = this.#createNavigationButtons();
-        this.#mainTitle = this.#createTitle();
     }
 
     /**
      * Renders the navigation into headers nav element
      */
-    render() {
+    render(appController) {
         const nav = document.querySelector("header nav");
+        nav.innerHTML = "";
         switch (this.#domController.State) {
             case 0:
-                nav.innerHTML = "";
                 nav.append(
-                    this.#mainTitle,
+                    this.#createTitle()
                 );
                 break;
 
             case 1:
-                nav.innerHTML = "";
                 nav.append(
-                    this.#prevButton,
-                    this.#selectedProjectTitle,
-                    this.#nextButton,
+                    ...this.#createNavigationButtons(appController)
                 );
                 break;
         }
@@ -68,7 +62,7 @@ export class NavigationDomController {
         return title;
     }
 
-    #createNavigationButtons() {
+    #createNavigationButtons(appController) {
         const prevButton = document.createElement('button');
         prevButton.id = "prev-project";
         prevButton.textContent = "Previous Project";
@@ -90,6 +84,7 @@ export class NavigationDomController {
         if (typeof value != "string" || value == "") {
             throw new Error("Invalid value passed for selected project title.");
         }
-        this.#selectedProjectTitle.textContent = `Selected Project: ${value}`;
+        const title = document.querySelector("#selected-project-title");
+        title.textContent = `Selected Project: ${value}`;
     }
 }
