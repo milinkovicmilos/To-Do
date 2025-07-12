@@ -38,25 +38,25 @@ export class NavigationDomController {
     }
 
     /**
-     * Renders the navigation into given element
-     * @param {HTMLElement} parentElement - Element to render the HTMLElements into
+     * Renders the navigation into headers nav element
      */
-    render(parentElement) {
+    render() {
+        const nav = document.querySelector("header nav");
         switch (this.#domController.State) {
             case 0:
-                parentElement.innerHTML = "";
-                parentElement.append(
+                nav.innerHTML = "";
+                nav.append(
                     this.#mainTitle,
                 );
                 break;
 
             case 1:
-                parentElement.innerHTML = "";
-                parentElement.append([
+                nav.innerHTML = "";
+                nav.append(
                     this.#prevButton,
                     this.#selectedProjectTitle,
                     this.#nextButton,
-                ]);
+                );
                 break;
         }
     }
@@ -71,9 +71,11 @@ export class NavigationDomController {
     #createNavigationButtons() {
         const prevButton = document.createElement('button');
         prevButton.id = "prev-project";
+        prevButton.textContent = "Previous Project";
 
         const nextButton = document.createElement('button');
         nextButton.id = "next-project";
+        nextButton.textContent = "Next Project";
 
         const selectedProjectTitle = document.createElement('p');
         selectedProjectTitle.id = "selected-project-title";
@@ -81,6 +83,9 @@ export class NavigationDomController {
         return [prevButton, selectedProjectTitle, nextButton];
     }
 
+    /**
+     * @param {string} value 
+     */
     updateSelectedProjectTitle(value) {
         if (typeof value != "string" || value == "") {
             throw new Error("Invalid value passed for selected project title.");
