@@ -20,7 +20,7 @@ export class DummyTasksGenerator {
         }
     ];
 
-    getProject() {
+    getTask() {
         const randomIndex = Math.floor(Math.random() * this.#availableTasks.length);
         return this.#availableTasks[randomIndex];
     }
