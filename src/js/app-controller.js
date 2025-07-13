@@ -115,6 +115,9 @@ export class AppController {
             // Add the task to it
             project.addTask(task);
 
+            // Store it
+            this.#storageWrapper.storeTask(project.Id, task);
+
             // Reload DOM
             this.#domController.renderProject(project);
         }

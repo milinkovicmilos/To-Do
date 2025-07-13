@@ -1,4 +1,5 @@
 import { Project } from "./project.js";
+import { Task } from "./task.js";
 
 export class LocalStorageAPI {
     constructor() {
@@ -17,7 +18,12 @@ export class LocalStorageAPI {
             id: project.id,
             title: project.title,
             desc: project.desc,
-            tasks: project.tasks
+            tasks: project.tasks.map(task => new Task(
+                task.title,
+                task.description,
+                task.dueDate,
+                task.priority
+            )),
         }));
     }
 
@@ -38,8 +44,48 @@ export class LocalStorageAPI {
     }
 
     removeProject(projectId) {
+        if (typeof projectId != "string" || projectId.length != 36) {
+            throw new Error("Invalid project id passed. Must be UUID or doesn't exist in storage.");
+        }
+
         const projectsData = JSON.parse(localStorage.getItem("projects"));
         const newProjectsData = projectsData.filter(project => project.id != projectId);
         localStorage.setItem("projects", JSON.stringify(newProjectsData));
+    }
+
+    storeTask(projectId, task) {
+        if (typeof projectId != "string" || projectId.length != 36) {
+            throw new Error("Invalid project id passed. Must be UUID or doesn't exist in storage.");
+        }
+
+        if (!task instanceof Task) {
+            throw new Error("Invalid task object passed. Must be instance of Task.");
+        }
+
+        const projects = JSON.parse(localStorage.getItem("projects"));
+        for (let i = 0; i < projects.length; i++) {
+            if (projects[i].id == projectId) {
+                projects[i].tasks.push({
+                    title: task.Title,
+                    description: task.Description,
+                    dueDate: task.DueDate,
+                    priority: task.Priority,
+                });
+            }
+        }
+        /*
+        const newProjectsData = projectsData.map(project => {
+            if (project.id == projectId) {
+                project.tasks.push({
+                    title: task.Title,
+                    description: task.Description,
+                    dueDate: task.DueDate,
+                    priority: task.Priority,
+                });
+            }
+            return project;
+        });
+        */
+        localStorage.setItem("projects", JSON.stringify(projects));
     }
 }

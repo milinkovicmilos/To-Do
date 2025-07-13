@@ -36,6 +36,7 @@ export class Project {
         this.Id = id;
         this.Title = title;
         this.Description = desc;
+        tasks.forEach(task => this.addTask(task));
     }
 
     get Id() {
@@ -85,7 +86,7 @@ export class Project {
     }
 
     set Tasks(value) {
-        if (typeof value != array) {
+        if (!Array.isArray(value)) {
             throw new Error("Must pass array of Tasks.");
         }
 
