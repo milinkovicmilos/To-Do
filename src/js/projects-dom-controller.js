@@ -36,7 +36,8 @@ export class ProjectsDomController {
 
         const deleteProjectButton = document.createElement('button');
         deleteProjectButton.textContent = 'Delete';
-        deleteProjectButton.addEventListener('click', () => {
+        deleteProjectButton.addEventListener('click', (event) => {
+            event.stopPropagation();
             appController.removeProject(project);
             card.remove();
         });
