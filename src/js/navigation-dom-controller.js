@@ -42,11 +42,9 @@ export class NavigationDomController {
     render(appController, project) {
         // Reset
         const header = document.querySelector("header");
-        const nav = header.querySelector("nav");
-        const homeButton = document.querySelector("#home");
-        if (homeButton) homeButton.remove();
+        header.innerHTML = "";
+        const nav = document.createElement("nav");
 
-        nav.innerHTML = "";
         switch (this.#domController.State) {
             case 0:
                 nav.append(
@@ -55,14 +53,16 @@ export class NavigationDomController {
                 break;
 
             case 1:
-                header.prepend(
-                    this.#createHomeButton(appController)
+                header.append(
+                    this.#createHomeButton(appController),
                 );
                 nav.append(
                     ...this.#createNavigationButtons(appController, project)
                 );
                 break;
         }
+
+        header.append(nav);
     }
 
     #createTitle() {
