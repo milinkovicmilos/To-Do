@@ -96,6 +96,7 @@ export class AppController {
         try {
             // Remove it
             this.#projectsHandler.removeProject(project);
+            this.#storageWrapper.removeProject(project.Id);
         }
         catch {
             // Print message to DOM

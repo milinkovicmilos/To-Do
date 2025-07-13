@@ -36,4 +36,10 @@ export class LocalStorageAPI {
         }));
         localStorage.setItem("projects", JSON.stringify(arr));
     }
+
+    removeProject(projectId) {
+        const projectsData = JSON.parse(localStorage.getItem("projects"));
+        const newProjectsData = projectsData.filter(project => project.id != projectId);
+        localStorage.setItem("projects", JSON.stringify(newProjectsData));
+    }
 }
