@@ -87,7 +87,6 @@ export class NavigationDomController {
         nextButton.id = "next-project";
         nextButton.textContent = "Next Project";
         nextButton.addEventListener('click', function() {
-            console.log('next')
             appController.showNextProject(project);
         });
 

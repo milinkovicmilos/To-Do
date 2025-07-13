@@ -70,7 +70,6 @@ export class AppController {
         try {
             const nextProject = this.#projectsHandler.getNextProject(currentProject);
 
-            console.log(currentProject);
             if (nextProject == null) {
                 return;
             }
