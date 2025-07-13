@@ -12,21 +12,28 @@ export class LocalStorageAPI {
      * Returns the array of projects stored in localStorage
      */
     loadProjects() {
-        return JSON.parse(localStorage.getItem("projects"));
+        const projectsData = JSON.parse(localStorage.getItem("projects"));
+        return projectsData.map(project => new Project({
+            id: project.id,
+            title: project.title,
+            desc: project.desc,
+            tasks: project.tasks
+        }));
     }
 
     storeProject(project) {
-        if (project instanceof Project) {
-            const projects = this.loadProjects();
-            const obj = {
-                title: project.Title,
-                description: project.Description,
-                tasks: project.Tasks,
-            }
-            projects.push(obj);
-            localStorage.setItem("projects", JSON.stringify(projects));
-        } else {
+        if (!project instanceof Project) {
             throw new Error("Invalid object for storage.");
         }
+
+        const projects = this.loadProjects();
+        projects.push(project);
+        const arr = projects.map(project => ({
+            id: project.Id,
+            title: project.Title,
+            desc: project.Description,
+            tasks: project.Tasks,
+        }));
+        localStorage.setItem("projects", JSON.stringify(arr));
     }
 }

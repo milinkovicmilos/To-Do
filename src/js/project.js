@@ -3,6 +3,12 @@ import { ProjectValidationError } from "./project-validation-error.js";
 
 export class Project {
     /**
+     * UUID represeting the id of this project, used for identifying the object storage
+     * @type {string}
+     */
+    #id;
+
+    /**
      * @type {string}
      */
     #title;
@@ -19,12 +25,31 @@ export class Project {
     #tasks = [];
 
     /**
-     * @param {string} title - Projects title
-     * @param {string} desc - Projects description
+     * @param {object} projectData
+     * @param {string} [projectData.id=crypto.randomUUID()] - Project UUID, if ommited generates a new one
+     * @param {string} projectData.title - Projects title
+     * @param {string} projectData.desc - Projects description
+     * @param {Array} [projectData.tasks=[]] - Tasks for given project
      */
-    constructor(title, desc) {
+    constructor(projectData) {
+        const { id = crypto.randomUUID(), title, desc, tasks = [] } = projectData;
+        this.Id = id;
         this.Title = title;
         this.Description = desc;
+    }
+
+    get Id() {
+        return this.#id;
+    }
+
+    /**
+     * @param {string} value
+     */
+    set Id(value) {
+        if (typeof value != "string" || value.length != 36) {
+            throw new Error("Invalid project id passed. Must be UUID.");
+        }
+        this.#id = value;
     }
 
     get Title() {
@@ -57,6 +82,19 @@ export class Project {
 
     get Tasks() {
         return this.#tasks;
+    }
+
+    set Tasks(value) {
+        if (typeof value != array) {
+            throw new Error("Must pass array of Tasks.");
+        }
+
+        value.forEach(task => {
+            if (!task instanceof Task) {
+                throw new Error("Invalid object in array. All objects must be instance of Task.");
+            }
+            this.#tasks.push(task);
+        });
     }
 
     /**

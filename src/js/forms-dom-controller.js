@@ -48,7 +48,10 @@ export class FormsDomController {
         submitButton.textContent = "Create";
         submitButton.addEventListener('click', () => {
             try {
-                const project = new Project(titleInput.value, descInput.value);
+                const project = new Project({
+                    title: titleInput.value,
+                    desc: descInput.value,
+                });
                 appController.createProject(project);
                 form.remove();
             }
