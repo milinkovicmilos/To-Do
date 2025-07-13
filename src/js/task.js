@@ -1,3 +1,5 @@
+import { TaskValidationError } from "./task-validation-error";
+
 export class Task {
     /**
      * @type {string}
@@ -41,7 +43,7 @@ export class Task {
      */
     set Title(value) {
         if (typeof value != "string" || value == "") {
-            throw new Error("Invalid Task title.");
+            throw new TaskValidationError("Invalid Task title.", "Title");
         }
         this.#title = value;
     }
@@ -55,7 +57,7 @@ export class Task {
      */
     set Description(value) {
         if (typeof value != "string" || value == "") {
-            throw new Error("Invalid Task description.");
+            throw new TaskValidationError("Invalid Task description.", "Description");
         }
         this.#description = value;
     }
@@ -69,7 +71,7 @@ export class Task {
      */
     set DueDate(value) {
         if (!value instanceof Date) {
-            throw new Error("Invalid Date object passed. Object must be instance of Date");
+            throw new TaskValidationError("Invalid Date object passed. Object must be instance of Date", "Due Date");
         }
         this.#dueDate = value;
     }
@@ -83,7 +85,7 @@ export class Task {
      */
     set Priority(value) {
         if (typeof value != "number" || value < 0 || value > 10) {
-            throw new Error("Invalid priority value passed. Value must be between 0 and 10.");
+            throw new TaskValidationError("Invalid priority value passed. Value must be between 0 and 10.", "Priority");
         }
         this.#priority = value;
     }

@@ -85,6 +85,7 @@ export class DomController {
             throw new Error("Invalid state passed.");
         }
         this.#state = this.#states[value];
+        this.#formsController.removeFormIfExists();
     }
 
     renderFixed() {
@@ -129,6 +130,10 @@ export class DomController {
 
     renderNewProjectForm() {
         this.#formsController.renderNewProjectForm(this.#appController);
+    }
+
+    renderNewTaskForm(project) {
+        this.#formsController.renderNewTaskForm(this.#appController, project);
     }
 
     #checkIfProjectArray(array) {

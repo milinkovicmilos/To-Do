@@ -58,6 +58,7 @@ export class NavigationDomController {
             case 1:
                 header.append(
                     this.#createHomeButton(appController),
+                    this.#createNewTaskButton(project),
                 );
                 nav.append(
                     ...this.#createNavigationButtons(appController, project)
@@ -130,6 +131,18 @@ export class NavigationDomController {
 
         button.addEventListener('click', () => {
             this.#domController.renderNewProjectForm();
+        });
+
+        return button;
+    }
+
+    #createNewTaskButton(project) {
+        const button = document.createElement("button");
+        button.id = "new-task";
+        button.textContent = "New Task";
+
+        button.addEventListener('click', () => {
+            this.#domController.renderNewTaskForm(project);
         });
 
         return button;

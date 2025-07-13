@@ -1,6 +1,8 @@
 import { DomController } from "./dom-controller.js";
 import { Project } from "./project.js";
+import { Task } from "./task.js";
 import { ProjectValidationError } from "./project-validation-error.js";
+import { TaskValidationError } from "./task-validation-error.js";
 
 export class FormsDomController {
     /**
@@ -16,7 +18,7 @@ export class FormsDomController {
         this.#domController = domController;
     }
 
-    #removeFormIfExists() {
+    removeFormIfExists() {
         const form = document.querySelector("#form");
 
         // Reset
@@ -29,7 +31,7 @@ export class FormsDomController {
      * @param {object} appController - App controller object. Must be instance of AppController
      */
     renderNewProjectForm(appController) {
-        this.#removeFormIfExists();
+        this.removeFormIfExists();
 
         const form = document.createElement("div");
         form.id = "form";
@@ -59,6 +61,59 @@ export class FormsDomController {
         });
 
         form.append(titleInput, descInput, submitButton);
+        document.body.append(form);
+    }
+
+    /**
+     * @param {object} appController - App controller object. Must be instance of AppController
+     */
+    renderNewTaskForm(appController, project) {
+        this.removeFormIfExists();
+
+        const form = document.createElement("div");
+        form.id = "form";
+
+        const titleInput = document.createElement("input");
+        titleInput.setAttribute("type", "text");
+        titleInput.setAttribute("placeholder", "Task title...");
+
+        const descInput = document.createElement("input");
+        descInput.setAttribute("type", "text");
+        descInput.setAttribute("placeholder", "Task description...");
+
+        const date = new Date();
+        const dueDate = document.createElement("input");
+        dueDate.setAttribute("type", "date");
+        dueDate.setAttribute("min", `${date.toISOString().split("T")[0]}`)
+
+        const priority = document.createElement("input");
+        priority.setAttribute("type", "number");
+        priority.value = 0;
+        priority.setAttribute("placeholder", "Task priority...");
+        priority.setAttribute("min", "0");
+        priority.setAttribute("max", "10");
+
+        const submitButton = document.createElement("button");
+        submitButton.textContent = "Create Task";
+        submitButton.addEventListener('click', () => {
+            try {
+                const task = new Task(
+                    titleInput.value,
+                    descInput.value,
+                    dueDate.value,
+                    Number(priority.value)
+                );
+                appController.addTaskToProject(project, task);
+            }
+            catch (error) {
+                if (error instanceof TaskValidationError) {
+                    const text = `${error.element} must contain some value.`;
+                    this.#renderError(text);
+                }
+            }
+        });
+
+        form.append(titleInput, descInput, dueDate, priority, submitButton);
         document.body.append(form);
     }
 
