@@ -1,7 +1,6 @@
 import { DomController } from "./dom-controller.js";
-import { DummyStorageAPI } from "./dummy-storage-api.js";
+import { LocalStorageAPI } from "./localstorage-api.js";
 import { ProjectsHandler } from "./projects-handler.js";
-import { DummyProjectGenerator } from "./dummy-project-generator.js";
 import { Project } from "./project.js";
 
 export class AppController {
@@ -23,7 +22,7 @@ export class AppController {
 
     constructor() {
         this.#domController = new DomController(this);
-        this.#storageWrapper = new DummyStorageAPI();
+        this.#storageWrapper = new LocalStorageAPI();
         this.#projectsHandler = new ProjectsHandler();
     }
 
@@ -81,7 +80,6 @@ export class AppController {
     }
 
     createProject(project) {
-        console.log(project);
         // Projects Handler
         this.#projectsHandler.addProject(project);
 
@@ -91,7 +89,7 @@ export class AppController {
         this.#domController.renderProjects(projects);
 
         // Store it
-
+        this.#storageWrapper.storeProject(project);
     }
 
     removeProject(project) {
