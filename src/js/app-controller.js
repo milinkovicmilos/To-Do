@@ -81,14 +81,15 @@ export class AppController {
         }
     }
 
-    createProject() {
-        // DOM
-        const dummyProjectGenerator = new DummyProjectGenerator();
-        const projectData = dummyProjectGenerator.getProject();
-
+    createProject(project) {
+        console.log(project);
         // Projects Handler
-        const project = new Project(projectData.title, projectData.desc);
         this.#projectsHandler.addProject(project);
+
+        const projects = this.#projectsHandler.getProjects();
+
+        // Update DOM
+        this.#domController.renderProjects(projects);
 
         // Store it
 

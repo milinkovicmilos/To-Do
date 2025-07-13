@@ -4,6 +4,8 @@ import { ProjectsDomController } from "./projects-dom-controller.js";
 import { TasksDomController } from "./tasks-dom-controller.js";
 
 import { Project } from "./project.js";
+import { FormsDomController } from "./forms-dom-controller.js";
+import { ProjectValidationError } from "./project-validation-error.js";
 
 export class DomController {
     /**
@@ -29,6 +31,12 @@ export class DomController {
      * @type {object} tasksController - Must be instance of TasksDomController
      */
     #tasksController;
+
+    /**
+     * The Forms Dom Controller that is responsible for rendering forms for making projects and tasks
+     * @type {object} formsController - Must be instance of FormsDomController
+     */
+    #formsController;
 
     /**
      * State control.
@@ -59,6 +67,7 @@ export class DomController {
         this.#navigationController = new NavigationDomController(this);
         this.#projectsController = new ProjectsDomController();
         this.#tasksController = new TasksDomController();
+        this.#formsController = new FormsDomController(this);
     }
 
     /**
@@ -116,6 +125,10 @@ export class DomController {
 
         this.#navigationController.render(this.#appController, project);
         this.#navigationController.updateSelectedProjectTitle(project.Title);
+    }
+
+    renderNewProjectForm() {
+        this.#formsController.renderNewProjectForm(this.#appController);
     }
 
     #checkIfProjectArray(array) {

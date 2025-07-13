@@ -1,4 +1,5 @@
 import { Task } from "./task.js";
+import { ProjectValidationError } from "./project-validation-error.js";
 
 export class Project {
     /**
@@ -35,7 +36,7 @@ export class Project {
      */
     set Title(value) {
         if (typeof value != "string" || value == "") {
-            throw new Error("Invalid Project title.");
+            throw new ProjectValidationError("Invalid Project title.", "title");
         }
         this.#title = value;
     }
@@ -49,7 +50,7 @@ export class Project {
      */
     set Description(value) {
         if (typeof value != "string" || value == "") {
-            throw new Error("Invalid Project description.");
+            throw new ProjectValidationError("Invalid Project description.", "description");
         }
         this.#description = value;
     }

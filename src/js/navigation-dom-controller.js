@@ -47,6 +47,9 @@ export class NavigationDomController {
 
         switch (this.#domController.State) {
             case 0:
+                header.append(
+                    this.#createNewProjectButton()
+                );
                 nav.append(
                     this.#createTitle()
                 );
@@ -116,6 +119,18 @@ export class NavigationDomController {
         button.addEventListener('click', function() {
             button.remove();
             appController.initializeHomePage(true);
+        });
+
+        return button;
+    }
+
+    #createNewProjectButton() {
+        const button = document.createElement("button");
+        button.id = "new-project";
+        button.textContent = "New Project";
+
+        button.addEventListener('click', () => {
+            this.#domController.renderNewProjectForm();
         });
 
         return button;
