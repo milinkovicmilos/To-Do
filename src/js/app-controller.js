@@ -106,22 +106,23 @@ export class AppController {
 
     /**
      * Adds the task to the project.
-     * @param {object} project - Project to add task to. Must be instance of Project.
+     * @param {string} projectId - Id of project to add task to. Must be instance UUID.
      * @param {object} task - Task object that we wish to add. Must be instance of Task.
      */
-    addTaskToProject(project, task) {
+    addTaskToProject(projectId, task) {
         // Make sure it doesn't break if project doesn't exist
         try {
             // Add the task to it
-            project.addTask(task);
+            this.#projectsHandler.addTaskToProject(projectId, task);
 
             // Store it
-            this.#storageWrapper.storeTask(project.Id, task);
+            this.#storageWrapper.storeTask(projectId, task);
 
-            // Reload DOM
-            this.#domController.renderProject(project);
+            // Show it
+            this.#domController.renderTask(task);
         }
-        catch {
+        catch (err) {
+            console.log(err);
             // Print message to DOM
             console.log("Failed to add the task to project.");
         }

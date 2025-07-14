@@ -4,6 +4,7 @@ import { ProjectsDomController } from "./projects-dom-controller.js";
 import { TasksDomController } from "./tasks-dom-controller.js";
 
 import { Project } from "./project.js";
+import { Task } from "./task.js";
 import { FormsDomController } from "./forms-dom-controller.js";
 import { ProjectValidationError } from "./project-validation-error.js";
 
@@ -126,6 +127,18 @@ export class DomController {
 
         this.#navigationController.render(this.#appController, project);
         this.#navigationController.updateSelectedProjectTitle(project.Title);
+    }
+
+    /**
+     * @param {object} task - Task object to render. Must be instance of Task.
+     */
+    renderTask(task) {
+        if (!task instanceof Task) {
+            throw new Error("Invalid task object passed. Must be instance of Task.");
+        }
+
+        const gridWrapper = document.querySelector("#grid-wrapper");
+        this.#tasksController.renderSingleTask(gridWrapper, task);
     }
 
     renderNewProjectForm() {

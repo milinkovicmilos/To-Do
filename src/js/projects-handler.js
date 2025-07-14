@@ -1,4 +1,5 @@
 import { Project } from "./project.js";
+import { Task } from "./task.js";
 
 export class ProjectsHandler {
     #projects = [];
@@ -102,4 +103,26 @@ export class ProjectsHandler {
         }
         this.#projects.splice(index, 1);
     };
+
+
+    /**
+     * @param {string} projectId - If of project to add task to. Must be UUID.
+     * @param {object} task - Task to add. Must be instance of Task.
+     */
+    addTaskToProject(projectId, task) {
+        if (typeof projectId != "string" || projectId.length != 36) {
+            throw new Error("Invalid object passed. Object must be instance of Project.");
+        }
+
+        if (!task instanceof Task) {
+            throw new Error("Invalid task passed. Must be instance of Task.");
+        }
+
+        const index = this.#getProjectIndexById(projectId);
+        if (index == -1) {
+            throw new Error("Invalid project id passed. Project with that id doesn't exist.");
+        }
+
+        this.#projects[index].addTask(task);
+    }
 }

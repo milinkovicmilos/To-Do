@@ -36,4 +36,24 @@ export class TasksDomController {
             parentElement.append(wrapper);
         });
     }
+
+    renderSingleTask(parentElement, task) {
+        const wrapper = document.createElement("div");
+
+        const title = document.createElement("p");
+        title.textContent = task.Title;
+
+        const desc = document.createElement("p");
+        desc.textContent = task.Description;
+
+        const dueDate = document.createElement("p");
+        dueDate.textContent = task.DueDate;
+
+        const priorty = document.createElement("p");
+        priorty.textContent = task.Priority;
+
+        wrapper.append(title, desc, dueDate, priorty);
+
+        parentElement.append(wrapper);
+    }
 }

@@ -106,7 +106,8 @@ export class FormsDomController {
                     dueDate.value,
                     Number(priority.value)
                 );
-                appController.addTaskToProject(project, task);
+                appController.addTaskToProject(project.Id, task);
+                form.remove();
             }
             catch (error) {
                 if (error instanceof TaskValidationError) {
