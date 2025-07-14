@@ -1,5 +1,6 @@
 import { AppController } from "./app-controller.js";
 import { Project } from "./project.js";
+import { Task } from "./task.js";
 
 export class TasksDomController {
     /**
@@ -17,27 +18,22 @@ export class TasksDomController {
         }
 
         project.Tasks.forEach((task) => {
-            const wrapper = document.createElement("div");
-
-            const title = document.createElement("p");
-            title.textContent = task.Title;
-
-            const desc = document.createElement("p");
-            desc.textContent = task.Description;
-
-            const dueDate = document.createElement("p");
-            dueDate.textContent = task.DueDate;
-
-            const priorty = document.createElement("p");
-            priorty.textContent = task.Priority;
-
-            wrapper.append(title, desc, dueDate, priorty);
-
-            parentElement.append(wrapper);
+            parentElement.append(this.#createTaskElements(task));
         });
     }
 
     renderSingleTask(parentElement, task) {
+        parentElement.append(this.#createTaskElements(task));
+    }
+
+    /**
+     * @param {object} task - Task to render. Must be instance of Task.
+     */
+    #createTaskElements(task) {
+        if (!task instanceof Task) {
+            throw new Error("Invalid task object passed. Object must be instane of Task.");
+        }
+
         const wrapper = document.createElement("div");
 
         const title = document.createElement("p");
@@ -53,7 +49,6 @@ export class TasksDomController {
         priorty.textContent = task.Priority;
 
         wrapper.append(title, desc, dueDate, priorty);
-
-        parentElement.append(wrapper);
+        return wrapper;
     }
 }
