@@ -130,15 +130,16 @@ export class DomController {
     }
 
     /**
+     * @param {string} projectId - Id of project which new task we are rendering.
      * @param {object} task - Task object to render. Must be instance of Task.
      */
-    renderTask(task) {
+    renderTask(projectId, task) {
         if (!task instanceof Task) {
             throw new Error("Invalid task object passed. Must be instance of Task.");
         }
 
         const gridWrapper = document.querySelector("#grid-wrapper");
-        this.#tasksController.renderSingleTask(gridWrapper, task);
+        this.#tasksController.renderSingleTask(this.#appController, projectId, gridWrapper, task);
     }
 
     renderNewProjectForm() {

@@ -4,6 +4,11 @@ export class Task {
     /**
      * @type {string}
      */
+    #id;
+
+    /**
+     * @type {string}
+     */
     #title;
 
     /**
@@ -26,12 +31,25 @@ export class Task {
      * @param {string} desc - Description of the task.
      * @param {Date} dueDate - Date by which the task should be completed.
      * @param {number} priority - The priority of the task. Number between 1 and 10, 10 being the high priority.
+     * @param {string} [id = crypto.randomUUID()] - Task id. Must be UUID.
      */
-    constructor(title, desc, dueDate, priority) {
+    constructor(title, desc, dueDate, priority, id = crypto.randomUUID()) {
         this.Title = title;
         this.Description = desc;
         this.DueDate = dueDate;
         this.Priority = priority;
+        this.Id = id;
+    }
+
+    get Id() {
+        return this.#id;
+    }
+
+    set Id(value) {
+        if (typeof value != "string" || value.length != 36) {
+            throw new Error("Invalid task id passed. Must be UUID.");
+        }
+        this.#id = value;
     }
 
     get Title() {

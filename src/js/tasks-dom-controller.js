@@ -18,18 +18,23 @@ export class TasksDomController {
         }
 
         project.Tasks.forEach((task) => {
-            parentElement.append(this.#createTaskElements(task));
+            parentElement.append(this.#createTaskElements(appController, project.Id, task));
         });
     }
 
-    renderSingleTask(parentElement, task) {
-        parentElement.append(this.#createTaskElements(task));
+    renderSingleTask(appController, projectId, parentElement, task) {
+        if (typeof projectId != "string" || projectId.length != 36) {
+            throw new Error("Invalid project id passed. Must be UUID.");
+        }
+        parentElement.append(this.#createTaskElements(appController, projectId, task));
     }
 
     /**
+     * @param {object} appController - App controller responsible. Must be instance of AppController.
+     * @param {string} projectId - Id of project we are rendering tasks for.
      * @param {object} task - Task to render. Must be instance of Task.
      */
-    #createTaskElements(task) {
+    #createTaskElements(appController, projectId, task) {
         if (!task instanceof Task) {
             throw new Error("Invalid task object passed. Object must be instane of Task.");
         }
@@ -48,7 +53,14 @@ export class TasksDomController {
         const priorty = document.createElement("p");
         priorty.textContent = task.Priority;
 
-        wrapper.append(title, desc, dueDate, priorty);
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener('click', function() {
+            appController.removeTaskFromProject(projectId, task.Id);
+            wrapper.remove();
+        });
+
+        wrapper.append(title, desc, dueDate, priorty, deleteButton);
         return wrapper;
     }
 }

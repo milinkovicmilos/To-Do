@@ -111,7 +111,7 @@ export class ProjectsHandler {
      */
     addTaskToProject(projectId, task) {
         if (typeof projectId != "string" || projectId.length != 36) {
-            throw new Error("Invalid object passed. Object must be instance of Project.");
+            throw new Error("Invalid project id passed. Must be UUID.");
         }
 
         if (!task instanceof Task) {
@@ -124,5 +124,26 @@ export class ProjectsHandler {
         }
 
         this.#projects[index].addTask(task);
+    }
+
+    /**
+     * @param {string} projectId - Id of project we want to remove task from. Must be UUID.
+     * @param {string} taskId - Id of task we want to remove. Must be UUID.
+     */
+    removeTaskFromProject(projectId, taskId) {
+        if (typeof projectId != "string" || projectId.length != 36) {
+            throw new Error("Invalid project id passed. Must be UUID.");
+        }
+
+        if (typeof taskId != "string" || taskId.length != 36) {
+            throw new Error("Invalid task id passed. Must be UUID.");
+        }
+
+        const index = this.#getProjectIndexById(projectId);
+        if (index == -1) {
+            throw new Error("Invalid project id passed. Project with that id doesn't exist.");
+        }
+
+        this.#projects[index].removeTask(taskId);
     }
 }

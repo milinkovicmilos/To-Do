@@ -119,7 +119,7 @@ export class AppController {
             this.#storageWrapper.storeTask(projectId, task);
 
             // Show it
-            this.#domController.renderTask(task);
+            this.#domController.renderTask(projectId, task);
         }
         catch (err) {
             console.log(err);
@@ -130,17 +130,16 @@ export class AppController {
 
     /**
      * Removes the task from project.
-     * @param {number} projectIndex - Index of the project we wish to remove task from.
-     * @param {number} taskIndex - Index of task on the project we wish to remove.
+     * @param {string} projectId - Project id from which we want to remove task from. Must be UUID.
+     * @param {string} taskId - Task id that we want to remove. Must be UUID.
      */
-    removeTaskFromProject(projectIndex, taskIndex) {
-        // Make sure it doesn't break if project or task doesn't exist
+    removeTaskFromProject(projectId, taskId) {
         try {
             // Get the project
-            const project = this.#projectsHandler.getProject(projectIndex);
+            this.#projectsHandler.removeTaskFromProject(projectId, taskId);
 
-            // Remove the task if it exists
-            project.removeTask(taskIndex);
+            // Remove it from DOM
+
         }
         catch {
             // Print message to DOM

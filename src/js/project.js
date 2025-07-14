@@ -25,6 +25,20 @@ export class Project {
     #tasks = [];
 
     /**
+     * Returns the index of task with given id from tasks array.
+     * Returns -1 if not found.
+     * @param {string} taskId - Task Id. Must be UUID
+     */
+    #getTaskIndexById(taskId) {
+        for (let i = 0; i < this.#tasks.length; i++) {
+            if (this.#tasks[i].Id == taskId) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * @param {object} projectData
      * @param {string} [projectData.id=crypto.randomUUID()] - Project UUID, if ommited generates a new one
      * @param {string} projectData.title - Projects title
@@ -120,12 +134,17 @@ export class Project {
     }
 
     /**
-     * @param {object} task
+     * @param {string} taskId - Id of task we want to remove
      */
-    removeTask(task) {
-        if (!task instanceof Task) {
-            throw new Error("Invalid taks object passed. Object must be instance of Task.");
+    removeTask(taskId) {
+        if (typeof taskId != "string" || taskId.length != 36) {
+            throw new Error("Invalid task id passed. Must be UUID.");
         }
-        this.#tasks.splice(this.#tasks.findIndex(t => t == task), 1);
+
+        const index = this.#getTaskIndexById(taskId);
+        if (index == -1) {
+            throw new Error("Invalid task id passed. Task doesn't exist.");
+        }
+        this.#tasks.splice(index, 1);
     }
 }
