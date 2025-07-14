@@ -38,7 +38,12 @@ export class LocalStorageAPI {
             id: project.Id,
             title: project.Title,
             desc: project.Description,
-            tasks: project.Tasks,
+            tasks: project.Tasks.map(task => ({
+                title: task.Title,
+                description: task.Description,
+                dueDate: task.DueDate,
+                priority: task.Priority,
+            })),
         }));
         localStorage.setItem("projects", JSON.stringify(arr));
     }
