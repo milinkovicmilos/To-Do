@@ -138,6 +138,9 @@ export class AppController {
             // Get the project
             this.#projectsHandler.removeTaskFromProject(projectId, taskId);
 
+            // Store changes
+            this.#storageWrapper.removeTask(projectId, taskId);
+
             // Remove it from DOM
 
         }

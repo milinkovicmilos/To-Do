@@ -22,7 +22,8 @@ export class LocalStorageAPI {
                 task.title,
                 task.description,
                 task.dueDate,
-                task.priority
+                task.priority,
+                task.id
             )),
         }));
     }
@@ -39,6 +40,7 @@ export class LocalStorageAPI {
             title: project.Title,
             desc: project.Description,
             tasks: project.Tasks.map(task => ({
+                id: task.Id,
                 title: task.Title,
                 description: task.Description,
                 dueDate: task.DueDate,
@@ -71,6 +73,7 @@ export class LocalStorageAPI {
         for (let i = 0; i < projects.length; i++) {
             if (projects[i].id == projectId) {
                 projects[i].tasks.push({
+                    id: task.Id,
                     title: task.Title,
                     description: task.Description,
                     dueDate: task.DueDate,
@@ -92,5 +95,32 @@ export class LocalStorageAPI {
         });
         */
         localStorage.setItem("projects", JSON.stringify(projects));
+    }
+
+    /**
+     * Removes the task from localStorage.
+     * @param {string} projectId - Id of project we want to remove task from. Must be UUID.
+     * @param {string} taskId - Id of task we want to remove. Must be UUID.
+     */
+    removeTask(projectId, taskId) {
+        if (typeof projectId != "string" || projectId.length != 36) {
+            throw new Error("Invalid project id passed. Must be UUID.");
+        }
+
+        if (typeof taskId != "string" || taskId.length != 36) {
+            throw new Error("Invalid task id passed. Must be UUID.");
+        }
+
+        const projectsData = JSON.parse(localStorage.getItem("projects"));
+        for (let i = 0; i < projectsData.length; i++) {
+            if (projectsData[i].id == projectId) {
+                for (let j = 0; j < projectsData[i].tasks.length; j++) {
+                    if (projectsData[i].tasks[j].id == taskId) {
+                        projectsData[i].tasks.splice(j, 1);
+                    }
+                }
+            }
+        }
+        localStorage.setItem("projects", JSON.stringify(projectsData));
     }
 }
