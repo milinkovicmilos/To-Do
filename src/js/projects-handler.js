@@ -22,17 +22,35 @@ export class ProjectsHandler {
     };
 
     /**
+     * Returns the index of project with given id from projects array.
+     * Returns -1 if not found.
+     * @param {string} projectId - Projects Id. must be UUID
+     */
+    #getProjectIndexById(projectId) {
+        for (let i = 0; i < this.#projects.length; i++) {
+            if (this.#projects[i].Id == projectId) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * Gets the previous project in array. If it's first element in array it gets the last element.
      * If the array length is less than 2 returns null, else returns the object.
-     * @param {object} project - The current object
+     * @param {string} projectId - The id of current object. Must be UUID.
      */
-    getPreviousProject(project) {
+    getPreviousProject(projectId) {
+        if (typeof projectId != "string" || projectId.length != 36) {
+            throw new Error("Invalid project id passed. Must be UUID.");
+        }
+
         if (this.#projects.length < 2) {
             return null;
         }
 
-        let index = this.#projects.findIndex((proj) => proj == project);
-        if (--index < 0) {
+        let index = this.#getProjectIndexById(projectId) - 1;
+        if (index < 0) {
             index = this.#projects.length - 1;
         }
 
@@ -42,15 +60,19 @@ export class ProjectsHandler {
     /**
      * Gets the next project in array. If it's last element in array it gets the first element.
      * If the array length is less than 2 returns null, else returns the object.
-     * @param {object} project - The current object
+     * @param {string} projectId - The id of current project. Must be UUID.
      */
-    getNextProject(project) {
+    getNextProject(projectId) {
+        if (typeof projectId != "string" || projectId.length != 36) {
+            throw new Error("Invalid project id passed. Must be UUID.");
+        }
+
         if (this.#projects.length < 2) {
             return null;
         }
 
-        let index = this.#projects.findIndex((proj) => proj == project);
-        if (++index > this.#projects.length - 1) {
+        let index = this.#getProjectIndexById(projectId) + 1;
+        if (index > this.#projects.length - 1) {
             index = 0;
         }
 
@@ -70,10 +92,14 @@ export class ProjectsHandler {
     /**
      * @param {object} project - Refenrece to the object to remove. Must be instance of Project
      */
-    removeProject(project) {
-        if (!project instanceof Project) {
+    removeProject(projectId) {
+        if (typeof projectId != "string" || projectId.length != 36) {
             throw new Error("Invalid object passed. Object must be instance of Project.");
         }
-        this.#projects.splice(this.#projects.findIndex(proj => proj == project), 1);
+        const index = this.#getProjectIndexById(projectId);
+        if (index == -1) {
+            throw new Error("Invalid project id passed. Project with that id doesn't exist.");
+        }
+        this.#projects.splice(index, 1);
     };
 }

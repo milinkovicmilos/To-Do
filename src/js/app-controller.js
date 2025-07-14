@@ -53,7 +53,7 @@ export class AppController {
 
     showPreviousProject(currentProject) {
         try {
-            const previousProject = this.#projectsHandler.getPreviousProject(currentProject);
+            const previousProject = this.#projectsHandler.getPreviousProject(currentProject.Id);
 
             if (previousProject == null) {
                 return;
@@ -67,7 +67,7 @@ export class AppController {
 
     showNextProject(currentProject) {
         try {
-            const nextProject = this.#projectsHandler.getNextProject(currentProject);
+            const nextProject = this.#projectsHandler.getNextProject(currentProject.Id);
 
             if (nextProject == null) {
                 return;
@@ -95,7 +95,7 @@ export class AppController {
     removeProject(project) {
         try {
             // Remove it
-            this.#projectsHandler.removeProject(project);
+            this.#projectsHandler.removeProject(project.Id);
             this.#storageWrapper.removeProject(project.Id);
         }
         catch {
