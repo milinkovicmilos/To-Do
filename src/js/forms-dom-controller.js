@@ -36,11 +36,21 @@ export class FormsDomController {
         const form = document.createElement("div");
         form.id = "form";
 
+        const titleLabel = document.createElement("label");
+        titleLabel.textContent = "Title";
+        titleLabel.setAttribute("for", "project-title");
+
         const titleInput = document.createElement("input");
+        titleInput.id = "project-title";
         titleInput.setAttribute("type", "text");
         titleInput.setAttribute("placeholder", "Project title...");
 
+        const descLabel = document.createElement("label");
+        descLabel.textContent = "Description";
+        descLabel.setAttribute("for", "project-desc");
+
         const descInput = document.createElement("input");
+        descInput.id = "project-desc";
         descInput.setAttribute("type", "text");
         descInput.setAttribute("placeholder", "Project description...");
 
@@ -63,8 +73,8 @@ export class FormsDomController {
             }
         });
 
-        form.append(titleInput, descInput, submitButton);
-        document.body.append(form);
+        form.append(titleLabel, titleInput, descLabel, descInput, submitButton);
+        document.querySelector("main").prepend(form);
     }
 
     /**
