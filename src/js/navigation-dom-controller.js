@@ -48,10 +48,8 @@ export class NavigationDomController {
         switch (this.#domController.State) {
             case 0:
                 header.append(
+                    this.#createTitle(),
                     this.#createNewProjectButton()
-                );
-                nav.append(
-                    this.#createTitle()
                 );
                 break;
 
@@ -63,10 +61,10 @@ export class NavigationDomController {
                 nav.append(
                     ...this.#createNavigationButtons(appController, project)
                 );
+                header.append(nav);
                 break;
         }
 
-        header.append(nav);
     }
 
     #createTitle() {

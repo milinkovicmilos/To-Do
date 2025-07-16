@@ -3,12 +3,55 @@
     margin: 0;
 }
 
+:root {
+    --background: #0D0D0D;
+    --card-background: #1A1A1A;
+    --primary-text: #FFFFFF;
+    --secondary-text: #A0A0A0;
+    --due-date-text: #CCCCCC;
+    --accent: #A970FF;
+    --border: #2A2A2A;
+    --border-second: #333333;
+    --completed-item: #666666;
+}
+
 html {
     font-size: 16px;
 }
 
 body {
     font-size: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--background);
+    color: var(--primary-text);
+}
+
+header,
+main {
+    width: 80%;
+    margin: 10px auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+header>h2 {
+    display: block;
+    width: auto;
+    text-align: center;
+}
+
+#new-project,
+#new-task {
+    box-shadow: 0px 0px 3px 1px var(--accent);
+    color: var(--accent);
+}
+
+#prev-project,
+#next-project {
+    width: 150px;
 }
 
 nav {
@@ -24,28 +67,31 @@ nav>#selected-project-title {
 
 button {
     padding: 5px;
-}
-
-#prev-project,
-#next-project {
-    width: 150px;
-}
-
-header,
-main {
-    width: 80%;
-    margin: 10px auto;
+    background-color: var(--border);
+    color: var(--primary-text);
+    border: 1px solid var(--border-second);
+    border-radius: 5px;
 }
 
 #grid-wrapper {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     gap: 20px;
 }
 
-.grid-element {
-    width: 50%;
-    height: 250px;
-    background-color: black;
+#grid-wrapper>div {
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 20px;
+    background-color: var(--card-background);
+}
+
+#grid-wrapper>div>* {
+    margin-bottom: 10px;
+}
+
+#grid-wrapper>div>button {
+    margin-bottom: 0;
+    float: right;
 }
