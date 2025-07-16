@@ -35,6 +35,8 @@ main {
 header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 header>h2 {
@@ -55,6 +57,13 @@ header>h2 {
     width: 150px;
 }
 
+.flex-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 nav {
     margin: 20px 0;
     display: flex;
@@ -62,6 +71,7 @@ nav {
 }
 
 nav>#selected-project-title {
+    padding: 0 5px;
     flex-grow: 1;
     text-align: center;
 }
@@ -84,7 +94,7 @@ button {
 #grid-wrapper>div {
     border: 1px solid var(--border);
     border-radius: 5px;
-    padding: 20px;
+    padding: 15px;
     background-color: var(--card-background);
 }
 
@@ -95,6 +105,38 @@ button {
 #grid-wrapper>div>button {
     margin-bottom: 0;
     float: right;
+}
+
+.task-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+#grid-wrapper>.task-wrapper>div {
+    margin-bottom: 0;
+}
+
+.left-wrapper {
+    padding-right: 15px;
+}
+
+.center-wrapper {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.center-wrapper>.task-desc {
+    margin-top: 10px;
+    color: var(--secondary-text);
+}
+
+.right-wrapper {
+    padding-left: 15px;
+    color: var(--secondary-text);
+    font-size: 0.75rem;
 }
 
 #form {

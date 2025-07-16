@@ -40,17 +40,37 @@ export class TasksDomController {
         }
 
         const wrapper = document.createElement("div");
+        wrapper.classList.add("task-wrapper");
+
+        const leftWrapper = document.createElement("div");
+        leftWrapper.classList.add("left-wrapper");
+
+        const centerWrapper = document.createElement("div");
+        centerWrapper.classList.add("center-wrapper");
+
+        const rightWrapper = document.createElement("div");
+        rightWrapper.classList.add("right-wrapper");
+
+        const checkbox = document.createElement("input");
+        checkbox.setAttribute("type", "checkbox");
 
         const title = document.createElement("p");
+        title.classList.add("task-title");
         title.textContent = task.Title;
+        title.addEventListener('click', () => {
+            checkbox.checked = !checkbox.checked;
+        });
 
         const desc = document.createElement("p");
+        desc.classList.add("task-desc");
         desc.textContent = task.Description;
 
         const dueDate = document.createElement("p");
+        dueDate.classList.add("task-due-date");
         dueDate.textContent = task.DueDate;
 
         const priorty = document.createElement("p");
+        priorty.classList.add("task-priority");
         priorty.textContent = task.Priority;
 
         const deleteButton = document.createElement("button");
@@ -60,7 +80,10 @@ export class TasksDomController {
             wrapper.remove();
         });
 
-        wrapper.append(title, desc, dueDate, priorty, deleteButton);
+        leftWrapper.append(checkbox);
+        centerWrapper.append(title, desc);
+        rightWrapper.append(dueDate, priorty);
+        wrapper.append(leftWrapper, centerWrapper, rightWrapper);
         return wrapper;
     }
 }

@@ -44,6 +44,7 @@ export class NavigationDomController {
         const header = document.querySelector("header");
         header.innerHTML = "";
         const nav = document.createElement("nav");
+        nav.classList.add("flex-wrapper");
 
         switch (this.#domController.State) {
             case 0:
@@ -54,9 +55,14 @@ export class NavigationDomController {
                 break;
 
             case 1:
-                header.append(
+                const wrapper = document.createElement("div");
+                wrapper.classList.add("flex-wrapper");
+                wrapper.append(
                     this.#createHomeButton(appController),
                     this.#createNewTaskButton(project),
+                );
+                header.append(
+                    wrapper
                 );
                 nav.append(
                     ...this.#createNavigationButtons(appController, project)
