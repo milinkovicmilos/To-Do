@@ -69,9 +69,8 @@ export class TasksDomController {
         dueDate.classList.add("task-due-date");
         dueDate.textContent = task.DueDate;
 
-        const priorty = document.createElement("p");
-        priorty.classList.add("task-priority");
-        priorty.textContent = task.Priority;
+        const priorty = document.createElement("div");
+        priorty.classList.add("task-priority", `priority-${task.Priority}`);
 
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
