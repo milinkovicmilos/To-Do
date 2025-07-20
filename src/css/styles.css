@@ -54,7 +54,7 @@ header>h2 {
 
 #prev-project,
 #next-project {
-    width: 150px;
+    width: 70px;
 }
 
 .flex-wrapper {
@@ -65,14 +65,14 @@ header>h2 {
 }
 
 nav {
-    margin: 20px 0;
+    margin-top: 20px;
     display: flex;
     justify-content: center;
 }
 
 nav>#selected-project-title {
+    width: calc(100% - 140px);
     padding: 0 5px;
-    flex-grow: 1;
     text-align: center;
 }
 
@@ -128,15 +128,33 @@ button {
     flex-grow: 1;
 }
 
+.center-wrapper>p {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
 .center-wrapper>.task-desc {
     margin-top: 10px;
     color: var(--secondary-text);
 }
 
 .right-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding-left: 15px;
     color: var(--secondary-text);
     font-size: 0.75rem;
+}
+
+.right-wrapper>:first-child {
+    margin-bottom: 20px;
+}
+
+.right-wrapper>div>button {
+    float: right;
 }
 
 #form {

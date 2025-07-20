@@ -51,6 +51,9 @@ export class TasksDomController {
         const rightWrapper = document.createElement("div");
         rightWrapper.classList.add("right-wrapper");
 
+        const rightWrapperTop = document.createElement("div");
+        const rightWrapperBottom = document.createElement("div");
+
         const checkbox = document.createElement("input");
         checkbox.setAttribute("type", "checkbox");
 
@@ -81,7 +84,9 @@ export class TasksDomController {
 
         leftWrapper.append(checkbox);
         centerWrapper.append(title, desc);
-        rightWrapper.append(dueDate, priorty);
+        rightWrapperTop.append(dueDate, priorty);
+        rightWrapperBottom.append(deleteButton);
+        rightWrapper.append(rightWrapperTop, rightWrapperBottom);
         wrapper.append(leftWrapper, centerWrapper, rightWrapper);
         return wrapper;
     }

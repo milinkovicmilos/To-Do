@@ -128,7 +128,7 @@ export class FormsDomController {
         });
 
         form.append(titleInput, descInput, dueDate, priority, submitButton);
-        document.body.append(form);
+        document.querySelector("main").prepend(form);
     }
 
     #renderError(text) {
