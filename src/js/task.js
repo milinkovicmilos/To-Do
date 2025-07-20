@@ -108,11 +108,18 @@ export class Task {
     }
 
     /**
-     * @param {number} value
+     * @param {string} value
      */
     set Priority(value) {
-        if (typeof value != "number" || value < 0 || value > 10) {
-            throw new TaskValidationError("Invalid priority value passed. Value must be between 0 and 10.", "Priority");
+        if (typeof value == "string" && value.length == 0) {
+            return;
+        }
+
+        value = Number(value);
+        if (value < 0 || value > 10) {
+            throw new TaskValidationError(
+                "Invalid priority value passed. Value must be between 0 and 10.",
+                "Priority value must be between 0 and 10");
         }
         this.#priority = value;
     }

@@ -113,7 +113,7 @@ export class FormsDomController {
                     titleInput.value,
                     descInput.value,
                     dueDate.value,
-                    Number(priority.value)
+                    priority.value
                 );
                 appController.addTaskToProject(project.Id, task);
                 form.remove();
