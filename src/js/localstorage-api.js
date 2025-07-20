@@ -7,6 +7,11 @@ export class LocalStorageAPI {
         if (projects == null) {
             localStorage.setItem("projects", "[]");
         }
+
+        const tasks = localStorage.getItem("tasks");
+        if (tasks == null) {
+            localStorage.setItem("tasks", "[]");
+        }
     }
 
     /**
@@ -17,14 +22,8 @@ export class LocalStorageAPI {
         return projectsData.map(project => new Project({
             id: project.id,
             title: project.title,
-            desc: project.desc,
-            tasks: project.tasks.map(task => new Task({
-                title: task.title,
-                desc: task.description,
-                dueDate: task.dueDate,
-                priority: task.priority,
-                id: task.id,
-            })),
+            desc: project.description,
+            tasks: this.#loadProjectsTasks(project.id),
         }));
     }
 
@@ -33,21 +32,13 @@ export class LocalStorageAPI {
             throw new Error("Invalid object for storage.");
         }
 
-        const projects = this.loadProjects();
-        projects.push(project);
-        const arr = projects.map(project => ({
+        const projects = JSON.parse(localStorage.getItem("projects"));
+        projects.push({
             id: project.Id,
             title: project.Title,
-            desc: project.Description,
-            tasks: project.Tasks.map(task => ({
-                id: task.Id,
-                title: task.Title,
-                description: task.Description,
-                dueDate: task.DueDate,
-                priority: task.Priority,
-            })),
-        }));
-        localStorage.setItem("projects", JSON.stringify(arr));
+            description: project.Description,
+        });
+        localStorage.setItem("projects", JSON.stringify(projects));
     }
 
     removeProject(projectId) {
@@ -57,9 +48,40 @@ export class LocalStorageAPI {
 
         const projectsData = JSON.parse(localStorage.getItem("projects"));
         const newProjectsData = projectsData.filter(project => project.id != projectId);
+
+        const tasks = JSON.parse(localStorage.getItem("tasks"));
+        const newTasksData = tasks.filter(task => task.projectId != projectId);
+
         localStorage.setItem("projects", JSON.stringify(newProjectsData));
+        localStorage.setItem("tasks", JSON.stringify(newTasksData));
     }
 
+    /**
+     * Load the tasks that are assigned to given project.
+     * Returns array of objects of type Task.
+     * @param {string} projectId - Id of project which tasks we want to get.
+     */
+    #loadProjectsTasks(projectId) {
+        if (typeof projectId != "string" || projectId.length != 36) {
+            throw new Error("Invalid project id passed. Must be UUID or doesn't exist in storage.");
+        }
+
+        const tasks = JSON.parse(localStorage.getItem("tasks"));
+        return tasks
+            .filter(task => task.projectId == projectId)
+            .map(task => new Task({
+                id: task.id,
+                title: task.title,
+                desc: task.description,
+                dueDate: task.dueDate,
+                priority: task.priority,
+            }));
+    }
+
+    /**
+     * @param {string} projectId - Id of projects whose task this is. Must be UUID.
+     * @param {object} task - Task that we are adding to project. Must be instance of Task.
+     */
     storeTask(projectId, task) {
         if (typeof projectId != "string" || projectId.length != 36) {
             throw new Error("Invalid project id passed. Must be UUID or doesn't exist in storage.");
@@ -69,32 +91,16 @@ export class LocalStorageAPI {
             throw new Error("Invalid task object passed. Must be instance of Task.");
         }
 
-        const projects = JSON.parse(localStorage.getItem("projects"));
-        for (let i = 0; i < projects.length; i++) {
-            if (projects[i].id == projectId) {
-                projects[i].tasks.push({
-                    id: task.Id,
-                    title: task.Title,
-                    description: task.Description,
-                    dueDate: task.DueDate,
-                    priority: task.Priority,
-                });
-            }
-        }
-        /*
-        const newProjectsData = projectsData.map(project => {
-            if (project.id == projectId) {
-                project.tasks.push({
-                    title: task.Title,
-                    description: task.Description,
-                    dueDate: task.DueDate,
-                    priority: task.Priority,
-                });
-            }
-            return project;
+        const tasks = JSON.parse(localStorage.getItem("tasks"));
+        tasks.push({
+            projectId,
+            id: task.Id,
+            title: task.Title,
+            description: task.Description,
+            dueDate: task.DueDate,
+            priority: task.Priority,
         });
-        */
-        localStorage.setItem("projects", JSON.stringify(projects));
+        localStorage.setItem("tasks", JSON.stringify(tasks));
     }
 
     /**
@@ -111,16 +117,8 @@ export class LocalStorageAPI {
             throw new Error("Invalid task id passed. Must be UUID.");
         }
 
-        const projectsData = JSON.parse(localStorage.getItem("projects"));
-        for (let i = 0; i < projectsData.length; i++) {
-            if (projectsData[i].id == projectId) {
-                for (let j = 0; j < projectsData[i].tasks.length; j++) {
-                    if (projectsData[i].tasks[j].id == taskId) {
-                        projectsData[i].tasks.splice(j, 1);
-                    }
-                }
-            }
-        }
-        localStorage.setItem("projects", JSON.stringify(projectsData));
+        const tasks = JSON.parse(localStorage.getItem("tasks"));
+        const newTasksData = tasks.filter(task => task.projectId != projectId || task.id != taskId);
+        localStorage.setItem("tasks", JSON.stringify(newTasksData));
     }
 }
