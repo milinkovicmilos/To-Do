@@ -28,13 +28,15 @@ export class Task {
     #priority;
 
     /**
-     * @param {string} title - Title of the task.
-     * @param {string} desc - Description of the task.
-     * @param {Date} dueDate - Date by which the task should be completed.
-     * @param {number} priority - The priority of the task. Number between 1 and 10, 10 being the high priority.
-     * @param {string} [id = crypto.randomUUID()] - Task id. Must be UUID.
+     * @param {object} taskData
+     * @param {string} [taskData.id = crypto.randomUUID()] - Task id. Must be UUID.
+     * @param {string} taskData.title - Title of the task.
+     * @param {string} taskData.desc - Description of the task.
+     * @param {string} [taskData.dueDate = ""] - Date by which the task should be completed.
+     * @param {string} [taskData.priority = "0"] - The priority of the task. Number between 1 and 10, 10 being the high priority.
      */
-    constructor(title, desc, dueDate, priority, id = crypto.randomUUID()) {
+    constructor(taskData) {
+        const { id = crypto.randomUUID(), title, desc, dueDate = "", priority = "0" } = taskData;
         this.Title = title;
         this.Description = desc;
         this.DueDate = dueDate;

@@ -109,12 +109,12 @@ export class FormsDomController {
         submitButton.textContent = "Create Task";
         submitButton.addEventListener('click', () => {
             try {
-                const task = new Task(
-                    titleInput.value,
-                    descInput.value,
-                    dueDate.value,
-                    priority.value
-                );
+                const task = new Task({
+                    title: titleInput.value,
+                    desc: descInput.value,
+                    dueDate: dueDate.value,
+                    priority: priority.value
+                });
                 appController.addTaskToProject(project.Id, task);
                 form.remove();
             }

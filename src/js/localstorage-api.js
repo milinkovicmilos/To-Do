@@ -18,13 +18,13 @@ export class LocalStorageAPI {
             id: project.id,
             title: project.title,
             desc: project.desc,
-            tasks: project.tasks.map(task => new Task(
-                task.title,
-                task.description,
-                task.dueDate,
-                task.priority,
-                task.id
-            )),
+            tasks: project.tasks.map(task => new Task({
+                title: task.title,
+                desc: task.description,
+                dueDate: task.dueDate,
+                priority: task.priority,
+                id: task.id,
+            })),
         }));
     }
 
