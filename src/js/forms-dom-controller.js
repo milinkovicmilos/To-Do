@@ -120,7 +120,7 @@ export class FormsDomController {
             }
             catch (error) {
                 if (error instanceof TaskValidationError) {
-                    const text = `${error.element} must contain some value.`;
+                    const text = error.userMessage;
                     this.#renderError(text);
                 }
             }

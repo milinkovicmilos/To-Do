@@ -3,9 +3,9 @@ export class TaskValidationError extends Error {
      * @param {string} message - Error message
      * @param {string} element - Form element that failed validation
      */
-    constructor(message, element) {
+    constructor(message, userMessage) {
         super(message)
         this.name = "ValidationError";
-        this.element = element;
+        this.userMessage = userMessage;
     }
 }

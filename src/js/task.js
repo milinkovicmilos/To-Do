@@ -1,4 +1,5 @@
 import { TaskValidationError } from "./task-validation-error";
+import { isValid } from "date-fns";
 
 export class Task {
     /**
@@ -17,7 +18,7 @@ export class Task {
     #description;
 
     /**
-     * @type {Date}
+     * @type {string}
      */
     #dueDate;
 
@@ -85,12 +86,20 @@ export class Task {
     }
 
     /**
-     * @param {Date} value
+     * @param {string} value
      */
     set DueDate(value) {
-        if (!value instanceof Date) {
-            throw new TaskValidationError("Invalid Date object passed. Object must be instance of Date", "Due Date");
+        if ((typeof value == "string" && value.length == 0) || typeof (value) != "string") {
+            return;
         }
+
+        if (isValid(value)) {
+            throw new TaskValidationError(
+                "Invalid Date string passed. Must be in YYYY-MM-DD format.",
+                "Invalid date selected"
+            );
+        }
+
         this.#dueDate = value;
     }
 
