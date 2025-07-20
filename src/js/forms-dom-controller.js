@@ -90,8 +90,7 @@ export class FormsDomController {
         titleInput.setAttribute("type", "text");
         titleInput.setAttribute("placeholder", "Task title...");
 
-        const descInput = document.createElement("input");
-        descInput.setAttribute("type", "text");
+        const descInput = document.createElement("textarea");
         descInput.setAttribute("placeholder", "Task description...");
 
         const date = new Date();
