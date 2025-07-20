@@ -72,8 +72,8 @@ export class TasksDomController {
         dueDate.classList.add("task-due-date");
         dueDate.textContent = task.DueDate;
 
-        const priorty = document.createElement("div");
-        priorty.classList.add("task-priority", `priority-${task.Priority}`);
+        const priority = document.createElement("div");
+        priority.classList.add("task-priority", `priority-${task.Priority}`);
 
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
@@ -84,7 +84,15 @@ export class TasksDomController {
 
         leftWrapper.append(checkbox);
         centerWrapper.append(title, desc);
-        rightWrapperTop.append(dueDate, priorty);
+
+        if (task.DueDate) {
+            rightWrapperTop.append(dueDate);
+        }
+
+        if (task.Priority != 0) {
+            rightWrapperTop.append(priority);
+        }
+
         rightWrapperBottom.append(deleteButton);
         rightWrapper.append(rightWrapperTop, rightWrapperBottom);
         wrapper.append(leftWrapper, centerWrapper, rightWrapper);
