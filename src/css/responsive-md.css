@@ -1,0 +1,14 @@
+@media screen and (min-width: 768px) {
+    html {
+        font-size: 18px;
+    }
+
+    #prev-project,
+    #next-project {
+        width: 150px;
+    }
+
+    nav>#selected-project-title {
+        width: calc(100% - 300px);
+    }
+}
