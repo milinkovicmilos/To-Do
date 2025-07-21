@@ -56,12 +56,19 @@ export class TasksDomController {
 
         const checkbox = document.createElement("input");
         checkbox.setAttribute("type", "checkbox");
+        checkbox.checked = task.Completed;
+        checkbox.addEventListener('change', function() {
+            task.Completed = this.checked;
+            appController.changeTaskCompletion(projectId, task.Id);
+        });
 
         const title = document.createElement("p");
         title.classList.add("task-title");
         title.textContent = task.Title;
         title.addEventListener('click', () => {
             checkbox.checked = !checkbox.checked;
+            const changeEvent = new Event("change");
+            checkbox.dispatchEvent(changeEvent);
         });
 
         const desc = document.createElement("p");

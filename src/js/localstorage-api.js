@@ -71,6 +71,7 @@ export class LocalStorageAPI {
             .filter(task => task.projectId == projectId)
             .map(task => new Task({
                 id: task.id,
+                completed: task.completed,
                 title: task.title,
                 desc: task.description,
                 dueDate: task.dueDate,
@@ -95,6 +96,7 @@ export class LocalStorageAPI {
         tasks.push({
             projectId,
             id: task.Id,
+            completed: task.Completed,
             title: task.Title,
             description: task.Description,
             dueDate: task.DueDate,
@@ -120,5 +122,16 @@ export class LocalStorageAPI {
         const tasks = JSON.parse(localStorage.getItem("tasks"));
         const newTasksData = tasks.filter(task => task.projectId != projectId || task.id != taskId);
         localStorage.setItem("tasks", JSON.stringify(newTasksData));
+    }
+
+    changeTaskCompletion(projectId, taskId) {
+        const tasks = JSON.parse(localStorage.getItem("tasks"));
+        const newTaskData = tasks.map(task => {
+            if (task.projectId == projectId && task.id == taskId) {
+                return { ...task, completed: !task.completed };
+            }
+            return task;
+        });
+        localStorage.setItem("tasks", JSON.stringify(newTaskData));
     }
 }

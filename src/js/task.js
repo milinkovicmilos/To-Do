@@ -8,6 +8,11 @@ export class Task {
     #id;
 
     /**
+     * @type {Boolean}
+     */
+    #completed;
+
+    /**
      * @type {string}
      */
     #title;
@@ -30,18 +35,20 @@ export class Task {
     /**
      * @param {object} taskData
      * @param {string} [taskData.id = crypto.randomUUID()] - Task id. Must be UUID.
+     * @param {Boolean} [taskdata.completed = false] - Whether the task has been completed or not.
      * @param {string} taskData.title - Title of the task.
      * @param {string} taskData.desc - Description of the task.
      * @param {string} [taskData.dueDate = ""] - Date by which the task should be completed.
      * @param {string} [taskData.priority = "0"] - The priority of the task. Number between 1 and 10, 10 being the high priority.
      */
     constructor(taskData) {
-        const { id = crypto.randomUUID(), title, desc, dueDate = "", priority = "0" } = taskData;
+        const { id = crypto.randomUUID(), completed = false, title, desc, dueDate = "", priority = "0" } = taskData;
+        this.Id = id;
+        this.Completed = completed;
         this.Title = title;
         this.Description = desc;
         this.DueDate = dueDate;
         this.Priority = priority;
-        this.Id = id;
     }
 
     get Id() {
@@ -53,6 +60,17 @@ export class Task {
             throw new Error("Invalid task id passed. Must be UUID.");
         }
         this.#id = value;
+    }
+
+    get Completed() {
+        return this.#completed;
+    }
+
+    set Completed(value) {
+        if (typeof value != "boolean") {
+            throw new Error("Invalid data type passed. Completed must be a boolean value.");
+        }
+        this.#completed = value;
     }
 
     get Title() {

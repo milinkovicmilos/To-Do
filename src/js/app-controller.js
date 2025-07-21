@@ -149,4 +149,8 @@ export class AppController {
             console.log("Failed to remove the task from the project.");
         }
     }
+
+    changeTaskCompletion(projectId, taskId) {
+        this.#storageWrapper.changeTaskCompletion(projectId, taskId);
+    }
 }
