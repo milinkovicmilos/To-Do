@@ -227,4 +227,23 @@ export class LocalStorageAPI {
         const newSubtasksData = subtasks.filter(subtask => subtask.taskId != taskId || subtask.id != subtaskId);
         localStorage.setItem("subtasks", JSON.stringify(newSubtasksData));
     }
+
+    changeSubtaskCompletion(taskId, subtaskId) {
+        if (typeof taskId != "string" || taskId.length != 36) {
+            throw new Error("Invalid task id. Must be UUID.");
+        }
+
+        if (typeof subtaskId != "string" || subtaskId.length != 36) {
+            throw new Error("Invalid subtask id. Must be UUID.");
+        }
+
+        const subtasks = JSON.parse(localStorage.getItem("subtasks"));
+        const newSubtaskData = subtasks.map(subtask => {
+            if (subtask.taskId == taskId && subtask.id == subtaskId) {
+                return { ...subtask, completed: !subtask.completed };
+            }
+            return subtask;
+        });
+        localStorage.setItem("subtasks", JSON.stringify(newSubtaskData));
+    }
 }
