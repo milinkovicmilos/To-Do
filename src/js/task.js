@@ -1,3 +1,4 @@
+import { SubTask } from "./subtask.js";
 import { TaskValidationError } from "./task-validation-error";
 import { isValid } from "date-fns";
 
@@ -33,6 +34,11 @@ export class Task {
     #priority;
 
     /**
+     * @type {Array}
+     */
+    #subtasks;
+
+    /**
      * @param {object} taskData
      * @param {string} [taskData.id = crypto.randomUUID()] - Task id. Must be UUID.
      * @param {Boolean} [taskdata.completed = false] - Whether the task has been completed or not.
@@ -40,15 +46,17 @@ export class Task {
      * @param {string} taskData.desc - Description of the task.
      * @param {string} [taskData.dueDate = ""] - Date by which the task should be completed.
      * @param {string} [taskData.priority = "0"] - The priority of the task. Number between 1 and 10, 10 being the high priority.
+     * @param {Array} [taskData.subtasks = []] - Subtasks of this task.
      */
     constructor(taskData) {
-        const { id = crypto.randomUUID(), completed = false, title, desc, dueDate = "", priority = "0" } = taskData;
+        const { id = crypto.randomUUID(), completed = false, title, desc, dueDate = "", priority = "0", subtasks = [] } = taskData;
         this.Id = id;
         this.Completed = completed;
         this.Title = title;
         this.Description = desc;
         this.DueDate = dueDate;
         this.Priority = priority;
+        this.Subtasks = subtasks;
     }
 
     get Id() {
@@ -142,5 +150,22 @@ export class Task {
                 "Priority value must be between 0 and 10");
         }
         this.#priority = value;
+    }
+
+    get Subtasks() {
+        return this.#subtasks;
+    }
+
+    set Subtasks(value) {
+        if (!Array.isArray(value)) {
+            throw new Error("Invalid subtasks value passed. Must be array of SubTask objects.");
+        }
+
+        value.forEach(subtask => {
+            if (!subtask instanceof SubTask) {
+                throw new Error("Invalid object in subtask array. Objects must be instance of SubTask.");
+            }
+            this.#subtasks.push(subtask);
+        });
     }
 }
