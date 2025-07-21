@@ -1,5 +1,6 @@
 import { Project } from "./project.js";
 import { Task } from "./task.js";
+import { SubTask } from "./subtask.js";
 
 export class LocalStorageAPI {
     constructor() {
@@ -11,6 +12,11 @@ export class LocalStorageAPI {
         const tasks = localStorage.getItem("tasks");
         if (tasks == null) {
             localStorage.setItem("tasks", "[]");
+        }
+
+        const subtasks = localStorage.getItem("subtasks");
+        if (subtasks == null) {
+            localStorage.setItem("subtasks", "[]");
         }
     }
 
@@ -76,6 +82,25 @@ export class LocalStorageAPI {
                 desc: task.description,
                 dueDate: task.dueDate,
                 priority: task.priority,
+                subtasks: this.#loadTasksSubtasks(task.id)
+            }));
+    }
+
+    /**
+     * @param {string} taskid - Id of task we want to get the subtasks of. Must be UUID.
+     */
+    #loadTasksSubtasks(taskId) {
+        if (typeof taskId != "string" || taskId.length != 36) {
+            throw new Error("Invalid task id passed. Must be UUID or doesn't exist in storage.");
+        }
+
+        const subtasks = JSON.parse(localStorage.getItem("subtasks"));
+        return subtasks
+            .filter(subtask => subtask.taskId == taskId)
+            .map(subtask => new SubTask({
+                id: subtask.id,
+                completed: subtask.completed,
+                title: subtask.title,
             }));
     }
 
@@ -103,6 +128,8 @@ export class LocalStorageAPI {
             priority: task.Priority,
         });
         localStorage.setItem("tasks", JSON.stringify(tasks));
+
+        this.storeSubtasks(task.Id, task.Subtasks);
     }
 
     /**
@@ -133,5 +160,71 @@ export class LocalStorageAPI {
             return task;
         });
         localStorage.setItem("tasks", JSON.stringify(newTaskData));
+    }
+
+    /**
+     * @param {string} taskId - Id of task this subtask is for. Must be UUID.
+     * @param {object} subtask - Subtask we want to save. Must be instance of SubTask.
+     */
+    storeSubtask(taskId, subtask) {
+        if (typeof taskId != "string" || taskId.length != 36) {
+            throw new Error("Invalid task id. Must be UUID.");
+        }
+
+        if (!subtask instanceof SubTask) {
+            throw new Error("Invalid subtask object passed. Must be instance of SubTask.");
+        }
+
+        const subtasks = JSON.parse(localStorage.getItem("subtasks"));
+        subtasks.push({
+            taskId,
+            id: subtask.Id,
+            completed: subtask.Completed,
+            title: subtask.Title,
+        });
+        localStorage.setItem("subtasks", JSON.stringify(subtasks));
+    }
+
+    /**
+     * @param {string} taskId - Id of task this subtask is for. Must be UUID.
+     * @param {Array} subtasks - Array of subtasks we want to save. Element of array must be instance of SubTask.
+     */
+    storeSubtasks(taskId, subtasks) {
+        if (typeof taskId != "string" || taskId.length != 36) {
+            throw new Error("Invalid task id. Must be UUID.");
+        }
+
+        const subtasksData = JSON.parse(localStorage.getItem("subtasks"));
+        subtasks.forEach(subtask => {
+            if (!subtask instanceof SubTask) {
+                throw new Error("Invalid subtask object passed. Must be instance of SubTask.");
+            }
+
+            subtasksData.push({
+                taskId,
+                id: subtask.Id,
+                completed: subtask.Completed,
+                title: subtask.Title,
+            });
+        });
+        localStorage.setItem("subtasks", JSON.stringify(subtasksData));
+    }
+
+    /**
+     * @param {string} taskId - Id of task this subtask is for. Must be UUID.
+     * @param {string} subtaskId - Id of subtask we want to remove. Must be instance of SubTask.
+     */
+    removeSubtask(taskId, subtaskId) {
+        if (typeof taskId != "string" || taskId.length != 36) {
+            throw new Error("Invalid task id. Must be UUID.");
+        }
+
+        if (typeof subtaskId != "string" || subtaskId.length != 36) {
+            throw new Error("Invalid subtask id. Must be UUID.");
+        }
+
+        const subtasks = JSON.parse(localStorage.getItem("subtasks"));
+        const newSubtasksData = subtasks.filter(subtask => subtask.taskId != taskId || subtask.id != subtaskId);
+        localStorage.setItem("subtasks", JSON.stringify(newSubtasksData));
     }
 }
