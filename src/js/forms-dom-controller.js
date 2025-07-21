@@ -109,13 +109,13 @@ export class FormsDomController {
         const addSubtaskButton = document.createElement("button");
         addSubtaskButton.textContent = "+ Add Subtask";
         addSubtaskButton.addEventListener('click', () => {
-            let subtaskWrapper = document.querySelector("#subtask-wrapper");
+            let subtaskWrapper = document.querySelector("#form-subtask-wrapper");
             if (subtaskWrapper) {
                 subtaskWrapper.remove();
             }
 
             subtaskWrapper = document.createElement("div");
-            subtaskWrapper.id = "subtask-wrapper";
+            subtaskWrapper.id = "form-subtask-wrapper";
 
             const subtaskTitleInput = document.createElement("input");
             subtaskTitleInput.setAttribute("type", "text");
