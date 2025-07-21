@@ -36,7 +36,7 @@ export class Task {
     /**
      * @type {Array}
      */
-    #subtasks;
+    #subtasks = [];
 
     /**
      * @param {object} taskData

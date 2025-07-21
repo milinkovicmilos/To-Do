@@ -1,6 +1,7 @@
 import { DomController } from "./dom-controller.js";
 import { Project } from "./project.js";
 import { Task } from "./task.js";
+import { SubTask } from "./subtask.js";
 import { ProjectValidationError } from "./project-validation-error.js";
 import { TaskValidationError } from "./task-validation-error.js";
 
@@ -105,20 +106,74 @@ export class FormsDomController {
         priority.setAttribute("min", "0");
         priority.setAttribute("max", "10");
 
+        const addSubtaskButton = document.createElement("button");
+        addSubtaskButton.textContent = "+ Add Subtask";
+        addSubtaskButton.addEventListener('click', () => {
+            let subtaskWrapper = document.querySelector("#subtask-wrapper");
+            if (subtaskWrapper) {
+                subtaskWrapper.remove();
+            }
+
+            subtaskWrapper = document.createElement("div");
+            subtaskWrapper.id = "subtask-wrapper";
+
+            const subtaskTitleInput = document.createElement("input");
+            subtaskTitleInput.setAttribute("type", "text");
+            subtaskTitleInput.setAttribute("placeholder", "Subtask title...");
+
+            const saveSubtaskButton = document.createElement("button");
+            saveSubtaskButton.textContent = "Save";
+            saveSubtaskButton.addEventListener('click', () => {
+                const id = crypto.randomUUID();
+                const title = subtaskTitleInput.value;
+
+                const subtaskElementWrapper = document.createElement("div");
+                subtaskElementWrapper.classList.add("subtask-element-wrapper");
+
+                const subtaskTitle = document.createElement("p");
+                subtaskTitle.textContent = title;
+
+                const subtaskRemoveButton = document.createElement("button");
+                subtaskRemoveButton.textContent = "X";
+                subtaskRemoveButton.addEventListener('click', () => {
+                    subtaskElementWrapper.remove();
+                });
+                subtaskRemoveButton.dataset.id = id;
+
+                subtaskElementWrapper.append(subtaskTitle, subtaskRemoveButton);
+                addSubtaskButton.before(subtaskElementWrapper);
+
+                subtaskWrapper.remove();
+                addSubtaskButton.hidden = false;
+            });
+
+            subtaskWrapper.append(subtaskTitleInput, saveSubtaskButton);
+            addSubtaskButton.before(subtaskWrapper);
+            addSubtaskButton.hidden = true;
+        });
+
         const submitButton = document.createElement("button");
         submitButton.textContent = "Create Task";
         submitButton.addEventListener('click', () => {
             try {
+                const subtasks = [];
+                const subtaskElements = document.querySelectorAll(".subtask-element-wrapper");
+                subtaskElements.forEach(subtask => {
+                    const title = subtask.querySelector("p").textContent;
+                    subtasks.push(new SubTask({ title }));
+                });
                 const task = new Task({
                     title: titleInput.value,
                     desc: descInput.value,
                     dueDate: dueDate.value,
-                    priority: priority.value
+                    priority: priority.value,
+                    subtasks: subtasks,
                 });
                 appController.addTaskToProject(project.Id, task);
                 form.remove();
             }
             catch (error) {
+                console.log(error);
                 if (error instanceof TaskValidationError) {
                     const text = error.userMessage;
                     this.#renderError(text);
@@ -126,7 +181,7 @@ export class FormsDomController {
             }
         });
 
-        form.append(titleInput, descInput, dueDate, priority, submitButton);
+        form.append(titleInput, descInput, dueDate, priority, addSubtaskButton, submitButton);
         document.querySelector("main").prepend(form);
     }
 
