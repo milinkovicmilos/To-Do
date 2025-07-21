@@ -127,6 +127,11 @@ export class FormsDomController {
                 const id = crypto.randomUUID();
                 const title = subtaskTitleInput.value;
 
+                if (title.length == 0) {
+                    this.#renderError("Subtask title must contain at least one character.");
+                    return;
+                }
+
                 const subtaskElementWrapper = document.createElement("div");
                 subtaskElementWrapper.classList.add("subtask-element-wrapper");
 
