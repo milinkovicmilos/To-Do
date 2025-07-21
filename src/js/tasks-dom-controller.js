@@ -75,6 +75,27 @@ export class TasksDomController {
         desc.classList.add("task-desc");
         desc.textContent = task.Description;
 
+        task.Subtasks.forEach(subtask => {
+            const subtaskWrapper = document.createElement("div");
+            subtaskWrapper.classList.add("subtask-wrapper");
+
+            const completedCheckbox = document.createElement("input");
+            completedCheckbox.id = `subtask-${subtask.Id}`;
+            completedCheckbox.setAttribute("type", "checkbox");
+            completedCheckbox.checked = subtask.Completed;
+            completedCheckbox.addEventListener('change', function() {
+                subtask.Completed = this.checked;
+                appController.changeSubtaskCompletion(task.Id, subtask.Id);
+            });
+
+            const label = document.createElement("label");
+            label.setAttribute("for", `subtask-${subtask.Id}`);
+            label.textContent = subtask.Title;
+
+            subtaskWrapper.append(completedCheckbox, label);
+            centerWrapper.append(subtaskWrapper);
+        });
+
         const dueDate = document.createElement("p");
         dueDate.classList.add("task-due-date");
         dueDate.textContent = task.DueDate;
@@ -90,7 +111,7 @@ export class TasksDomController {
         });
 
         leftWrapper.append(checkbox);
-        centerWrapper.append(title, desc);
+        centerWrapper.prepend(title, desc);
 
         if (task.DueDate) {
             rightWrapperTop.append(dueDate);

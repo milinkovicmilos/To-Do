@@ -153,4 +153,8 @@ export class AppController {
     changeTaskCompletion(projectId, taskId) {
         this.#storageWrapper.changeTaskCompletion(projectId, taskId);
     }
+
+    changeSubtaskCompletion(taskId, subtaskId) {
+        this.#storageWrapper.changeSubtaskCompletion(taskId, subtaskId);
+    }
 }
