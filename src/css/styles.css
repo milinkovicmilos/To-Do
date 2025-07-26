@@ -122,6 +122,10 @@ button {
     padding-right: 15px;
 }
 
+.left-wrapper>input[type="checkbox"]:checked::before {
+    color: var(--accent)
+}
+
 .center-wrapper {
     width: 50%;
     display: flex;
@@ -141,6 +145,7 @@ button {
 }
 
 .subtask-wrapper {
+    color: var(--secondary-text);
     margin-top: var(--default-form-margin);
 }
 
@@ -164,6 +169,31 @@ button {
 
 .right-wrapper>div>button {
     float: right;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+}
+
+input[type="checkbox"]::before {
+    display: block;
+    height: 0.9rem;
+    width: 0.9rem;
+    content: '\2800';
+    border-radius: 3px;
+    background-color: var(--card-background);
+    outline: 1px solid var(--border-second);
+}
+
+input[type="checkbox"]:checked::before {
+    content: '\2713';
+    color: var(--completed-item);
+    text-align: center;
+    border-radius: 3px;
+}
+
+input[type="checkbox"]:checked+label {
+    text-decoration: line-through;
 }
 
 #form {
