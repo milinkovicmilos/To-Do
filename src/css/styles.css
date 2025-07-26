@@ -276,6 +276,10 @@ input[type="checkbox"]:checked+label {
     margin-bottom: var(--default-form-margin);
 }
 
+.subtask-element-wrapper>p {
+    width: 100%;
+}
+
 .subtask-element-wrapper>button {
     width: 30px;
     height: 30px;
