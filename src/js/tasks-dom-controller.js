@@ -42,17 +42,14 @@ export class TasksDomController {
         const wrapper = document.createElement("div");
         wrapper.classList.add("task-wrapper");
 
-        const leftWrapper = document.createElement("div");
-        leftWrapper.classList.add("left-wrapper");
+        const topWrapper = document.createElement("div");
+        topWrapper.classList.add("top-wrapper");
 
-        const centerWrapper = document.createElement("div");
-        centerWrapper.classList.add("center-wrapper");
+        const topleftWrapper = document.createElement("div");
+        topleftWrapper.classList.add("topleft-wrapper");
 
-        const rightWrapper = document.createElement("div");
-        rightWrapper.classList.add("right-wrapper");
-
-        const rightWrapperTop = document.createElement("div");
-        const rightWrapperBottom = document.createElement("div");
+        const bottomWrapper = document.createElement("div");
+        bottomWrapper.classList.add("bottom-wrapper");
 
         const checkbox = document.createElement("input");
         checkbox.setAttribute("type", "checkbox");
@@ -74,6 +71,7 @@ export class TasksDomController {
         const desc = document.createElement("p");
         desc.classList.add("task-desc");
         desc.textContent = task.Description;
+        bottomWrapper.append(desc);
 
         task.Subtasks.forEach(subtask => {
             const subtaskWrapper = document.createElement("div");
@@ -93,7 +91,7 @@ export class TasksDomController {
             label.textContent = subtask.Title;
 
             subtaskWrapper.append(completedCheckbox, label);
-            centerWrapper.append(subtaskWrapper);
+            bottomWrapper.append(subtaskWrapper);
         });
 
         const dueDate = document.createElement("p");
@@ -109,21 +107,18 @@ export class TasksDomController {
             appController.removeTaskFromProject(projectId, task.Id);
             wrapper.remove();
         });
-
-        leftWrapper.append(checkbox);
-        centerWrapper.prepend(title, desc);
+        bottomWrapper.append(deleteButton);
 
         if (task.DueDate) {
-            rightWrapperTop.append(dueDate);
+            topleftWrapper.append(dueDate);
         }
 
         if (task.Priority != 0) {
-            rightWrapperTop.append(priority);
+            topleftWrapper.append(priority);
         }
 
-        rightWrapperBottom.append(deleteButton);
-        rightWrapper.append(rightWrapperTop, rightWrapperBottom);
-        wrapper.append(leftWrapper, centerWrapper, rightWrapper);
+        topWrapper.append(checkbox, title, topleftWrapper);
+        wrapper.prepend(topWrapper, bottomWrapper);
         return wrapper;
     }
 }

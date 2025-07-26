@@ -13,7 +13,7 @@
     --border: #2A2A2A;
     --border-second: #333333;
     --completed-item: #666666;
-    --default-form-margin: 10px;
+    --default-margin: 10px;
 }
 
 html {
@@ -100,7 +100,7 @@ button {
 }
 
 #grid-wrapper>div>* {
-    margin-bottom: var(--default-form-margin);
+    margin-bottom: var(--default-margin);
 }
 
 #grid-wrapper>div>button {
@@ -108,75 +108,85 @@ button {
     float: right;
 }
 
-.task-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
 #grid-wrapper>.task-wrapper>div {
     margin-bottom: 0;
 }
 
-.left-wrapper {
-    padding-right: 15px;
-}
-
-.left-wrapper>input[type="checkbox"]:checked::before {
-    color: var(--accent)
-}
-
-.center-wrapper {
-    width: 50%;
+.task-wrapper {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    justify-content: flex-start;
 }
 
-.center-wrapper>p {
+.task-wrapper>p {
     word-break: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
 }
 
-.center-wrapper>.task-desc {
-    margin-top: var(--default-form-margin);
-    color: var(--secondary-text);
-}
-
-.subtask-wrapper {
-    color: var(--secondary-text);
-    margin-top: var(--default-form-margin);
-}
-
-.subtask-wrapper>input {
-    margin-right: var(--default-form-margin);
-}
-
-.right-wrapper {
-    height: 100%;
+.top-wrapper {
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-left: 15px;
+    justify-content: flex-start;
+}
+
+.top-wrapper>input[type="checkbox"] {
+    margin-right: var(--default-margin);
+}
+
+.top-wrapper>input[type="checkbox"]:checked::before {
+    color: var(--accent);
+}
+
+.top-wrapper>p {
+    width: 100%;
+    cursor: pointer;
+}
+
+.topleft-wrapper {
+    margin-left: var(--default-margin);
     color: var(--secondary-text);
     font-size: 0.75rem;
 }
 
-.right-wrapper>:first-child {
-    margin-bottom: 20px;
+.bottom-wrapper {
+    margin-left: calc(0.9rem + var(--default-margin));
 }
 
-.right-wrapper>div>button {
+.bottom-wrapper>button:last-of-type {
     float: right;
+    margin-top: var(--default-margin);
+}
+
+.task-desc {
+    margin-top: var(--default-margin);
+    color: var(--secondary-text);
+}
+
+.subtask-wrapper {
+    display: flex;
+    align-items: flex-start;
+    color: var(--secondary-text);
+    margin-top: var(--default-margin);
+}
+
+.subtask-wrapper>input {
+    margin-right: var(--default-margin);
+}
+
+.subtask-wrapper>label {
+    cursor: pointer;
 }
 
 input[type="checkbox"] {
     appearance: none;
+    cursor: pointer;
 }
 
 input[type="checkbox"]::before {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 0.9rem;
     width: 0.9rem;
     content: '\2800';
@@ -189,6 +199,7 @@ input[type="checkbox"]:checked::before {
     content: '\2713';
     color: var(--completed-item);
     text-align: center;
+    font-weight: bold;
     border-radius: 3px;
 }
 
@@ -216,7 +227,7 @@ input[type="checkbox"]:checked+label {
 #form>input,
 #form>textarea,
 #form>#form-subtask-wrapper>input {
-    margin-bottom: var(--default-form-margin);
+    margin-bottom: var(--default-margin);
     padding: 5px;
     font-size: 0.9rem;
     color: var(--primary-text);
@@ -247,12 +258,8 @@ input[type="checkbox"]:checked+label {
     color: var(--secondary-text);
 }
 
-#form>button:last-of-type {
-    margin-top: var(--default-form-margin);
-}
-
 #form>#error-text {
-    margin-top: var(--default-form-margin);
+    margin-top: var(--default-margin);
     color: var(--accent);
 }
 
@@ -265,7 +272,7 @@ input[type="checkbox"]:checked+label {
 #form>#form-subtask-wrapper>input {
     width: 100%;
     margin-bottom: 0;
-    margin-right: var(--default-form-margin);
+    margin-right: var(--default-margin);
 }
 
 .subtask-element-wrapper {
@@ -273,7 +280,7 @@ input[type="checkbox"]:checked+label {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--default-form-margin);
+    margin-bottom: var(--default-margin);
 }
 
 .subtask-element-wrapper>p {
