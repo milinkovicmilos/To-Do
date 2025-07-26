@@ -13,6 +13,7 @@
     --border: #2A2A2A;
     --border-second: #333333;
     --completed-item: #666666;
+    --default-form-margin: 10px;
 }
 
 html {
@@ -99,7 +100,7 @@ button {
 }
 
 #grid-wrapper>div>* {
-    margin-bottom: 10px;
+    margin-bottom: var(--default-form-margin);
 }
 
 #grid-wrapper>div>button {
@@ -135,8 +136,16 @@ button {
 }
 
 .center-wrapper>.task-desc {
-    margin-top: 10px;
+    margin-top: var(--default-form-margin);
     color: var(--secondary-text);
+}
+
+.subtask-wrapper {
+    margin-top: var(--default-form-margin);
+}
+
+.subtask-wrapper>input {
+    margin-right: var(--default-form-margin);
 }
 
 .right-wrapper {
@@ -175,8 +184,9 @@ button {
 }
 
 #form>input,
-#form>textarea {
-    margin-bottom: 10px;
+#form>textarea,
+#form>#form-subtask-wrapper>input {
+    margin-bottom: var(--default-form-margin);
     padding: 5px;
     font-size: 0.9rem;
     color: var(--primary-text);
@@ -185,7 +195,8 @@ button {
     border-radius: 5px;
 }
 
-#form>input {
+#form>input,
+#form>#form-subtask-wrapper>input {
     font-family: inherit;
 }
 
@@ -206,8 +217,39 @@ button {
     color: var(--secondary-text);
 }
 
-#form>*:last-child {
-    margin-top: 10px;
+#form>button:last-of-type {
+    margin-top: var(--default-form-margin);
+}
+
+#form>#error-text {
+    margin-top: var(--default-form-margin);
+    color: var(--accent);
+}
+
+#form-subtask-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#form>#form-subtask-wrapper>input {
+    width: 100%;
+    margin-bottom: 0;
+    margin-right: var(--default-form-margin);
+}
+
+.subtask-element-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--default-form-margin);
+}
+
+.subtask-element-wrapper>button {
+    width: 30px;
+    height: 30px;
+    padding: 0;
 }
 
 .task-priority {
