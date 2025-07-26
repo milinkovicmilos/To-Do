@@ -6,13 +6,9 @@
     }
 
     #form {
-        width: 25%;
+        width: 35%;
         margin: 0;
         margin-right: 20px;
-    }
-
-    #grid-wrapper {
-        grid-template-columns: repeat(2, 1fr);
     }
 
     button {
