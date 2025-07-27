@@ -158,6 +158,23 @@ export class AppController {
         this.#storageWrapper.changeSubtaskCompletion(taskId, subtaskId);
     }
 
+    importData() {
+        const inputFile = document.createElement("input");
+        inputFile.setAttribute("type", "file")
+        inputFile.click();
+
+        inputFile.addEventListener('change', () => {
+            const file = inputFile.files[0];
+
+            const reader = new FileReader();
+            reader.addEventListener('load', () => {
+                this.#storageWrapper.writeDataToStorage(JSON.parse(reader.result));
+            });
+
+            reader.readAsText(file);
+        });
+    }
+
     exportData() {
         const data = this.#storageWrapper.fetchDataFromStorage();
 

@@ -248,6 +248,16 @@ export class LocalStorageAPI {
     }
 
     /**
+     * Imports the data to localStorage
+     * @param {object} data - Data objects containing projects, tasks and subtasks.
+     */
+    writeDataToStorage(data) {
+        localStorage.setItem("projects", JSON.stringify(data["projects"]));
+        localStorage.setItem("tasks", JSON.stringify(data["tasks"]));
+        localStorage.setItem("subtasks", JSON.stringify(data["subtasks"]));
+    }
+
+    /**
      * Fetches all project data stored in localStorage
      * that is going to be used for exporting the data to file.
      */
