@@ -48,9 +48,25 @@ export class NavigationDomController {
 
         switch (this.#domController.State) {
             case 0:
-                header.append(
+                const importExportWrapper = document.createElement("div");
+                importExportWrapper.id = "import-export-wrapper";
+
+                importExportWrapper.append(
+                    this.#createImportButton(),
+                    this.#createExportButton(),
+                );
+
+                const titleButtonWrapper = document.createElement("div");
+                titleButtonWrapper.id = "title-button-wrapper";
+
+                titleButtonWrapper.append(
                     this.#createTitle(),
                     this.#createNewProjectButton()
+                );
+
+                header.append(
+                    titleButtonWrapper,
+                    importExportWrapper
                 );
                 break;
 
@@ -148,6 +164,20 @@ export class NavigationDomController {
         button.addEventListener('click', () => {
             this.#domController.renderNewTaskForm(project);
         });
+
+        return button;
+    }
+
+    #createImportButton() {
+        const button = document.createElement("button");
+        button.textContent = "Import";
+
+        return button;
+    }
+
+    #createExportButton() {
+        const button = document.createElement("button");
+        button.textContent = "Export";
 
         return button;
     }
