@@ -157,4 +157,16 @@ export class AppController {
     changeSubtaskCompletion(taskId, subtaskId) {
         this.#storageWrapper.changeSubtaskCompletion(taskId, subtaskId);
     }
+
+    exportData() {
+        const data = this.#storageWrapper.fetchDataFromStorage();
+
+        const blob = new Blob([data], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+
+        const anchor = document.createElement("a");
+        anchor.href = url;
+        anchor.download = "todo-export.json";
+        anchor.click();
+    }
 }

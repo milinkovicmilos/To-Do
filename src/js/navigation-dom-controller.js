@@ -39,7 +39,7 @@ export class NavigationDomController {
      * @param {object} appController
      * @param {object} [project=undefined] - Currently selected project. Optional parameter.
      */
-    render(appController, project) {
+    render(appController) {
         // Reset
         const header = document.querySelector("header");
         header.innerHTML = "";
@@ -53,7 +53,7 @@ export class NavigationDomController {
 
                 importExportWrapper.append(
                     this.#createImportButton(),
-                    this.#createExportButton(),
+                    this.#createExportButton(appController),
                 );
 
                 const titleButtonWrapper = document.createElement("div");
@@ -175,9 +175,10 @@ export class NavigationDomController {
         return button;
     }
 
-    #createExportButton() {
+    #createExportButton(appController) {
         const button = document.createElement("button");
         button.textContent = "Export";
+        button.addEventListener('click', function() { appController.exportData(); });
 
         return button;
     }

@@ -246,4 +246,16 @@ export class LocalStorageAPI {
         });
         localStorage.setItem("subtasks", JSON.stringify(newSubtaskData));
     }
+
+    /**
+     * Fetches all project data stored in localStorage
+     * that is going to be used for exporting the data to file.
+     */
+    fetchDataFromStorage() {
+        return JSON.stringify({
+            projects: JSON.parse(localStorage.getItem("projects")),
+            tasks: JSON.parse(localStorage.getItem("tasks")),
+            subtasks: JSON.parse(localStorage.getItem("subtasks")),
+        });
+    }
 }
