@@ -22,17 +22,20 @@ export class FormsDomController {
     removeFormIfExists() {
         const form = document.querySelector("#form");
 
-        // Reset
         if (form) {
             form.remove();
+            return true;
         }
+        return false;
     }
 
     /**
      * @param {object} appController - App controller object. Must be instance of AppController
      */
     renderNewProjectForm(appController) {
-        this.removeFormIfExists();
+        if (this.removeFormIfExists()) {
+            return;
+        }
 
         const form = document.createElement("div");
         form.id = "form";
@@ -80,7 +83,9 @@ export class FormsDomController {
      * @param {object} appController - App controller object. Must be instance of AppController
      */
     renderNewTaskForm(appController, project) {
-        this.removeFormIfExists();
+        if (this.removeFormIfExists()) {
+            return;
+        }
 
         const form = document.createElement("div");
         form.id = "form";
