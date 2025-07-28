@@ -44,7 +44,6 @@ export class FormsDomController {
         const titleInput = document.createElement("input");
         titleInput.id = "project-title";
         titleInput.setAttribute("type", "text");
-        titleInput.setAttribute("placeholder", "Project title...");
 
         const descLabel = document.createElement("label");
         descLabel.textContent = "Description";
@@ -53,7 +52,6 @@ export class FormsDomController {
         const descInput = document.createElement("input");
         descInput.id = "project-desc";
         descInput.setAttribute("type", "text");
-        descInput.setAttribute("placeholder", "Project description...");
 
         const submitButton = document.createElement("button");
         submitButton.textContent = "Create";
@@ -87,42 +85,56 @@ export class FormsDomController {
         const form = document.createElement("div");
         form.id = "form";
 
+        const titleLabel = document.createElement("label");
+        titleLabel.textContent = "Title";
+        titleLabel.setAttribute("for", "task-title");
+
         const titleInput = document.createElement("input");
+        titleInput.id = "task-title";
         titleInput.setAttribute("type", "text");
-        titleInput.setAttribute("placeholder", "Task title...");
+
+        const descLabel = document.createElement("label");
+        descLabel.textContent = "Description";
+        descLabel.setAttribute("for", "task-desc");
 
         const descInput = document.createElement("textarea");
-        descInput.setAttribute("placeholder", "Task description...");
+        descInput.id = "task-desc";
+
+        const dueDateLabel = document.createElement("label");
+        dueDateLabel.textContent = "Due Date";
+        dueDateLabel.setAttribute("for", "task-due-date");
 
         const date = new Date();
         const dueDate = document.createElement("input");
+        dueDate.id = "task-due-date";
         dueDate.setAttribute("type", "date");
         dueDate.setAttribute("min", `${date.toISOString().split("T")[0]}`)
 
+        const priorityLabel = document.createElement("label");
+        priorityLabel.textContent = "Priority";
+        priorityLabel.setAttribute("for", "task-prio");
+
         const priority = document.createElement("input");
+        priority.id = "task-prio";
         priority.setAttribute("type", "number");
         priority.value = 0;
-        priority.setAttribute("placeholder", "Task priority...");
         priority.setAttribute("min", "0");
         priority.setAttribute("max", "10");
 
         const addSubtaskButton = document.createElement("button");
         addSubtaskButton.textContent = "+ Add Subtask";
         addSubtaskButton.addEventListener('click', () => {
-            let subtaskWrapper = document.querySelector("#form-subtask-wrapper");
-            if (subtaskWrapper) {
-                subtaskWrapper.remove();
-            }
-
-            subtaskWrapper = document.createElement("div");
-            subtaskWrapper.id = "form-subtask-wrapper";
+            const subtaskTitleLabel = document.createElement("label");
+            subtaskTitleLabel.textContent = "Subtask Title";
+            subtaskTitleLabel.setAttribute("for", "subtask-title");
 
             const subtaskTitleInput = document.createElement("input");
+            subtaskTitleInput.id = "subtask-title";
             subtaskTitleInput.setAttribute("type", "text");
-            subtaskTitleInput.setAttribute("placeholder", "Subtask title...");
 
             const saveSubtaskButton = document.createElement("button");
-            saveSubtaskButton.textContent = "Save";
+            saveSubtaskButton.id = "subtask-save";
+            saveSubtaskButton.textContent = "Save Subtask";
             saveSubtaskButton.addEventListener('click', () => {
                 const id = crypto.randomUUID();
                 const title = subtaskTitleInput.value;
@@ -148,16 +160,19 @@ export class FormsDomController {
                 subtaskElementWrapper.append(subtaskTitle, subtaskRemoveButton);
                 addSubtaskButton.before(subtaskElementWrapper);
 
-                subtaskWrapper.remove();
+                subtaskTitleLabel.remove();
+                subtaskTitleInput.remove();
+                saveSubtaskButton.remove();
                 addSubtaskButton.hidden = false;
             });
 
-            subtaskWrapper.append(subtaskTitleInput, saveSubtaskButton);
-            addSubtaskButton.before(subtaskWrapper);
+            const taskCreateButton = document.querySelector("#task-create");
+            taskCreateButton.before(subtaskTitleLabel, subtaskTitleInput, saveSubtaskButton);
             addSubtaskButton.hidden = true;
         });
 
         const submitButton = document.createElement("button");
+        submitButton.id = "task-create";
         submitButton.textContent = "Create Task";
         submitButton.addEventListener('click', () => {
             try {
@@ -186,7 +201,18 @@ export class FormsDomController {
             }
         });
 
-        form.append(titleInput, descInput, dueDate, priority, addSubtaskButton, submitButton);
+        form.append(
+            titleLabel,
+            titleInput,
+            descLabel,
+            descInput,
+            dueDateLabel,
+            dueDate,
+            priorityLabel,
+            priority,
+            addSubtaskButton,
+            submitButton
+        );
         document.querySelector("main").prepend(form);
     }
 
