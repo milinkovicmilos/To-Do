@@ -56,10 +56,15 @@ export class LocalStorageAPI {
         const newProjectsData = projectsData.filter(project => project.id != projectId);
 
         const tasks = JSON.parse(localStorage.getItem("tasks"));
+        const taskIds = tasks.filter(task => task.projectId == projectId).map(task => task.id);
         const newTasksData = tasks.filter(task => task.projectId != projectId);
+
+        const subtasks = JSON.parse(localStorage.getItem("subtasks"));
+        const newSubtasksData = subtasks.filter(subtask => !taskIds.includes(subtask.taskId));
 
         localStorage.setItem("projects", JSON.stringify(newProjectsData));
         localStorage.setItem("tasks", JSON.stringify(newTasksData));
+        localStorage.setItem("subtasks", JSON.stringify(newSubtasksData));
     }
 
     /**
@@ -148,7 +153,12 @@ export class LocalStorageAPI {
 
         const tasks = JSON.parse(localStorage.getItem("tasks"));
         const newTasksData = tasks.filter(task => task.projectId != projectId || task.id != taskId);
+
+        const subtasks = JSON.parse(localStorage.getItem("subtasks"));
+        const newSubtasksData = subtasks.filter(subtask => subtask.taskId != taskId);
+
         localStorage.setItem("tasks", JSON.stringify(newTasksData));
+        localStorage.setItem("subtasks", JSON.stringify(newSubtasksData));
     }
 
     changeTaskCompletion(projectId, taskId) {
