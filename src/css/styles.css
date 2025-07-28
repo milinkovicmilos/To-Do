@@ -273,6 +273,10 @@ input[type="checkbox"]:checked+label {
     color: var(--secondary-text);
 }
 
+#form>button:first-of-type {
+    margin-bottom: var(--default-margin);
+}
+
 #form>#error-text {
     margin-top: var(--default-margin);
     color: var(--accent);
